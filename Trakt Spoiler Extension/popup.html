@@ -1,0 +1,62 @@
+<!doctype html>
+<style>
+#header
+{
+	width: 200px;
+	text-align: center;
+}
+
+.logo
+{
+	text-align: center;
+}
+
+.navigationButton
+{
+	display:inline-block;
+	width: 200px;
+}
+
+.filler
+{
+	padding-top: 15px;
+}
+</style>
+<html>
+  <head>
+    <script src="popup.js"></script>
+	<title>Trakt Spoiler Preventer</title>
+  </head>
+  <body>
+	<div id="header">
+		<img class="logo" src="icon48.png" align="left">
+		<h1 align="right">Trakt Spoiler Preventer</h1>
+	</header>
+
+	<h2 id="welcomeMessage"></h2>
+	
+	<button id="goToTrakt" class="navigationButton">
+		<img  src="icon16.png" align="left" vertical-align: middle> Go to Trakt.TV
+	</button>
+	<button id="goToTraktProfile" class="navigationButton">
+		<img  src="icon16.png" align="left" vertical-align: middle> Go to Profile Page
+	</button>
+	<button id="goToTraktProgress" class="navigationButton">
+		<img  src="icon16.png" align="left" vertical-align: middle> Go to Progress Page
+	</button>
+	<button id="goToTraktWatchlist" class="navigationButton">
+		<img  src="icon16.png" align="left" vertical-align: middle> Go to Watchlist
+	</button>
+	<div class="filler"></div>
+	
+	<form id="frmSearch">
+		Search Trakt: <input type="text" id="txtSearch">
+		<input type="submit" value="Search" id="inputSearch">
+	</form>
+	
+	<div class="filler"></div>
+	<button id="btnOptions" class="navigationButton">
+		<img  src="options.png" align="left" width="16px" vertical-align: middle> Options
+	</button>
+  </body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="options.js"></script>
+		<title>Trakt Spoiler Preventer Options</title>
+		
+		<style>
+			body
+			{
+				margin: 0px;
+				padding: 0px;
+				color: white;
+				font-family: "Varela Round", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			}
+
+			h2
+			{
+				color: #ed1c24;
+			}
+			
+			label
+			{
+				color: #333333;
+				display: block;
+			}
+			
+			a
+			{
+				color: white;
+			}
+			
+			#blurredBackground
+			{
+				background-image: url(poster-bg.jpg);
+				-webkit-filter: blur(2px);
+				-moz-filter: blur(2px);
+				-o-filter: blur(2px);
+				-ms-filter: blur(2px);
+				filter: blur(2px);
+				
+				z-index: 1;
+				
+				width: 200px;
+				
+				position: fixed;
+				
+				left: 0px;
+				top: 0px;
+				bottom: 0px;
+			}
+			
+			#creditAndInfo
+			{
+				background-color: rgba(0, 0, 0, 0.6);
+				
+				position: fixed;
+				
+				height: 100%;
+				bottom: 0px;
+				top: 0px;
+				left: 0px;
+				
+				z-index: 9999;
+				
+				-webkit-border-end: 1px solid black;
+			}
+			
+			#madeBy
+			{
+				position: fixed;
+				width: 100%;
+				height: 25px;
+				bottom: 0px;
+				
+				padding: 5px;
+			}
+
+			#wrapper
+			{
+				background-color: white;
+				
+				position: fixed;
+				
+				width: 100%;
+				height: 100%;
+				bottom: 0px;
+				top: 0px;
+			}
+			
+			#container
+			{
+				/* Trakt red: #ed1c24 */
+				background-color: white;
+				width: 100%;
+				height: 100%;
+				
+				position: fixed;
+				left: 200px;
+				padding-left: 10px;
+			}
+			
+			#header
+			{
+				padding-top: 10px;
+				width: 200px;
+				height: 225px;
+				
+				background-color: rgba(0, 0, 0, 0.6);
+				
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="container">
+				<div id ="blurredBackground">
+				</div>
+				<div id="creditAndInfo">
+					
+					<div id="header">
+						<img src="icon128.png">
+						<h1> Trakt Spoiler Preventer </h1>
+					</div>
+					
+					<div id="madeBy">
+						<p> Created by <a href="http://www.jordanbird.co.uk">Jordan Bird</a></p>
+					</div>
+				</div>
+
+				<div id="generalSettings">
+					<h2> General Settings </h2>
+					
+					<label>
+						<input type="checkbox" id="replaceName">
+						Replace episode names with 'Spoiler'. <p><em> Use this option if you want the site to look better and/or will most likely never want to see the name of an episode you have not watched. </em></p>
+					</label>
+					
+					<label>
+						<input type="checkbox" id="hoverName">
+						Allow names to be viewable when they are hovered over. <p><em> Use this option if you don't mind blocks that you can hover over and/or you may wish to see the name of an episode you are yet to watch. </em></p>
+					</label>
+					
+					<label>
+						<input type="checkbox" id="hideComments">
+						Hide comments on unwatched media.
+					</label>
+				</div>
+				
+				<div id="dashboardSettings">
+					<h2> Dashboard Settings </h2>
+					
+					<label>
+						<input type="checkbox" id="hideShowNames">
+						Hide episode names.
+					</label>
+				</div>
+				
+				<div id="episodePageSettings">
+					<h2> Episode Page Settings </h2>
+					
+					<label>
+						<input type="checkbox" id="hideShowName">
+						Hide episode name.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="hideShowDescription">
+						Hide episode description.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="hideShowScreenshot">
+						Hide episode screenshot.
+					</label>
+				</div>
+				
+				<div id="seasonPageSettings">
+					<h2> Season Page Settings </h2>
+				</div>
+				
+				<div id="calendarSettings">
+					<h2> Calendar Settings </h2>
+				</div>
+				
+				<div id="status"></div>
+				<button id="save">Save</button>
+			</div>
+		</div>
+	</body>
+</html>

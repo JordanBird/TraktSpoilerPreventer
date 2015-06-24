@@ -1,0 +1,36 @@
+{
+	"manifest_version": 2,
+ 
+	"name": "Trakt Spoiler Preventer",
+	"description": "This extension will attempt to hide any spoilers on the current Trakt page.",
+	"version": "1.0",
+ 
+	"options_page": "options.html",
+	"browser_action": {
+	"default_popup": "popup.html",
+	"default_title": "Trakt Spoiler Preventer"
+	},
+	"icons": {
+		"16": "icon16.png",
+		"19": "icon19.png",
+		"32": "icon32.png",
+		"48": "icon48.png",
+		"128": "icon128.png" },
+	"background": {
+		"persistent": false,
+		"scripts": ["background.js"]
+    },
+	"content_scripts": [{
+		"matches": ["*://trakt.tv/*"],
+		"runat" : "document_end",
+		"all_frames" : true,
+		"js":      ["jquery.min.js", "scanner.js"],
+		"css": ["traktSpoilerPreventerOverride.css"]
+   }],
+	"permissions": [
+		"storage",
+		"activeTab",
+		"tabs",
+		"webNavigation"
+   ]
+}

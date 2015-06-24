@@ -1,0 +1,112 @@
+.tspNameHoverDashboard:hover
+{
+	background-color: white;
+	padding-left: 5px;
+}
+
+.tspNameHoverDashboard
+{
+	background-color: #333333;
+	padding-left: 5px;
+}
+
+.tspNameHoverEpisodePageh1:hover
+{
+	background-color: transparent;
+	padding-left: 15px;
+}
+
+.tspNameHoverEpisodePageh1
+{
+	background-color: white;
+	padding-left: 15px;
+	
+	text-shadow: 0 0 0px black;
+}
+
+.tspNameHoverEpisodePageh2:hover
+{
+	background-color: transparent;
+	padding-left: 5px;
+}
+
+.tspNameHoverEpisodePageh2
+{
+	background-color: white;
+	padding-left: 5px;
+	
+	text-shadow: 0 0 0px black;
+}
+
+.tspNameHoverEpisodePageh3:hover
+{
+	background-color: transparent;
+	padding-left: 5px;
+}
+
+.tspNameHoverEpisodePageh3
+{
+	background-color: white;
+	padding-left: 5px;
+	
+	text-shadow: 0 0 0px black;
+}
+
+.tspNameHoverSeasonPage:hover
+{
+	background-color: transparent;
+	padding-left: 5px;
+}
+
+.tspNameHoverSeasonPage
+{
+	background-color: #333333;
+	padding-left: 5px;
+}
+
+.tspDescriptionHoverSeasonPage:hover
+{
+	background-color: transparent;
+}
+
+.tspDescriptionHoverSeasonPage
+{
+	background-color: #333333;
+}
+
+.tspNameHoverCalendar:hover
+{
+	background-color: transparent;
+	padding-left: 5px;
+}
+
+.tspNameHoverCalendar
+{
+	background-color: white;
+	padding-left: 5px;
+}
+
+.tspDescriptionHoverEpisodePage
+{
+	background-color: #333333;
+}
+
+.tspDescriptionHoverEpisodePage:hover
+{
+	background-color: transparent;
+}
+
+.tspCommentHover
+{
+	background-color: #333333;
+}
+
+.tspCommentHover:hover
+{
+	background-color: transparent;
+}
+
+.tspEpisodePageScreenshot
+{
+	background-image: url('http://trakt.tv/assets/placeholders/medium/fanart-0bb68bf682289cd3c69f3b81e9b7378b.png') !important;
+}
