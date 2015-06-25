@@ -22,6 +22,13 @@ var hideShowScreenshot = true;
 
 var style = "";
 
+//Regex Matches for Pages on Trakt.tv
+var regDashboard = /trakt.tv\/dashboard/;
+var regEpisodePage = /trakt.tv\/shows\/.+\/seasons\/\d+\/episodes\/\d+/;
+var regCalendar = /trakt.tv\/calendars/;
+var regProgressPage = /trakt.tv\/users\/.+\/progress/;
+var regSeasonPage = /trakt.tv\/shows\/.+\/seasons\/\d+/;
+
 //CSS Rule for Screenshots
 var backgroundCss = ".tspEpisodePageScreenshot{background-image: url(fanart) !important;}";
 var currentBackgroundCSSRule;
@@ -87,10 +94,20 @@ function DOMModificationHandler()
 
 function SpoilerPrevent()
 {
-	PreventSpoilersDashboard();
-	PreventSpoilersEpisodePage();
-	PreventSpoilersSeasonPage();
-	PreventSpoilersCalendar();
+	//Get the current URL for the page ready to compare to the regex defined above so that certain methods are only called on certain pages.
+	var currentWebURL = window.location.href;
+	
+	if (currentWebURL.match(regDashboard))
+		PreventSpoilersDashboard();
+	
+	if (currentWebURL.match(regEpisodePage))
+		PreventSpoilersEpisodePage();
+	
+	if (currentWebURL.match(regSeasonPage))
+		PreventSpoilersSeasonPage();
+	
+	if (currentWebURL.match(regCalendar))
+		PreventSpoilersCalendar();
 }
 
 function PreventSpoilersDashboard()
@@ -98,7 +115,10 @@ function PreventSpoilersDashboard()
 	//Check if user would like to spoiler prevent or not on Dashboard.
 	if (!hideShowNames)
 		return;
-		
+	
+	//For development and user observation purposes.
+	console.log("Attempting to spoiler prevent Dashboard.");
+	
 	try
 	{
 		var titleObjects = document.getElementsByTagName("h5");
@@ -125,6 +145,9 @@ function PreventSpoilersEpisodePage()
 		//If a check in box doesn't exist then the episode page is not currently present. Cancel spoiler prevention.
 		if (CheckIfPageIsEpisodePage())
 			return;
+		
+		//For development and user observation purposes.
+		console.log("Attempting to spoiler prevent an Episode Page.");
 		
 		//Change the title of the page to remove episode title. //TODO: Add do you want to check.
 		var parts = document.title.split('"');
@@ -286,6 +309,9 @@ function PreventSpoilersSeasonPage()
 {
 	try
 	{
+		//For development and user observation purposes.
+		console.log("Attempting to spoiler prevent a Season Page.");
+	
 		var panels = document.getElementsByClassName("row fanarts");
 		
 		for (i = 0; i < panels.length; i++)
@@ -341,6 +367,9 @@ function PreventSpoilersCalendar()
 {
 	try
 	{
+		//For development and user observation purposes.
+		console.log("Attempting to spoiler prevent a Calendar.");
+		
 		var titleObjects = document.getElementsByClassName("grid-item");
 		
 		for (i = 0; i < titleObjects.length; i++)
