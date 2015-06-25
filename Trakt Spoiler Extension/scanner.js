@@ -33,8 +33,6 @@ var regSeasonPage = /trakt.tv\/shows\/.+\/seasons\/\d+/;
 var backgroundCss = ".tspEpisodePageScreenshot{background-image: url(fanart) !important;}";
 var currentBackgroundCSSRule;
 
-//StyleTest();
-
 //Get settings. //TODO: Put into method. Perhaps two by abstracting get?
 chrome.storage.sync.get(
 	{
@@ -396,32 +394,6 @@ function PreventSpoilersCalendar()
 	}
 }
 
-function StyleTest()
-{
-	var css = '.tspNameHover:hover { background-color: ' + hoverColour + '; padding-left: 5px; }.tspNameHover { background-color: ' + normalColour + '; padding-left: 5px; }';
-	var head = document.head || document.getElementsByTagName('head')[0];
-	try
-	{
-		style.remove();
-	}
-	catch (e) {}
-	
-	style = document.createElement('style');
-	
-	style.type = 'text/css';
-	
-	if (style.styleSheet)
-	{
-		style.styleSheet.cssText = css;
-	}
-	else
-	{
-		style.appendChild(document.createTextNode(css));
-	}
-
-	head.appendChild(style);
-}
-
 function CheckIfPageIsEpisodePage()
 {
 	return document.getElementsByClassName("btn btn-block btn-summary btn-watch").length == 0;
@@ -440,14 +412,6 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 			episodename = span.innerHTML.split("<span class=\"tspNameHover\">")[1].split("</span>")[0];
 		}
 
-		//normalColour = window.getComputedStyle(span).backgroundColor;
-		//hoverColour = window.getComputedStyle(span).backgroundColor;
-		
-		//StyleTest();
-		
-		//document.getElementsByClassName("frame-wrapper").color
-		//|| document.getElementsByClassName("schedule-wrapper"))[0].backgroundColour;
-		//normalColour = document.body.style.color;
 		//Cleanup the episode name.
 		span.innerHTML = "<span class=\"main-title-sxe\">" + episodeAndSeason + "</span>";
 		
@@ -463,10 +427,10 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 		{
 			newName.innerHTML = episodename;
 		}
+		
 		//If user wishes to only see the name on hover, change it here.
 		if (showOnHover)
 		{
-			
 			newName.className = "tspNameHover" + page;
 		}
 		else
@@ -482,6 +446,7 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 
 function SpoilerPreventComments()
 {
+	//Find all comments on the page.
 	var comments = document.getElementsByClassName('comment');
 	
 	for (i = 0; i < comments.length; i++)
@@ -496,9 +461,4 @@ function SpoilerPreventComments()
 			comments[i].className = "tspCommentHover";
 		}
 	}
-}
-
-function NotificationTest()
-{
-	window.alert("Notification!");
 }
