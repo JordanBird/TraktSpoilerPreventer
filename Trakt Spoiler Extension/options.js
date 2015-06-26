@@ -1,34 +1,47 @@
 document.addEventListener('DOMContentLoaded', SetupPage);
-
+console.log(chrome.storage);
 // Saves options to chrome.storage
 function save_options()
 {
-	var bReplaceName = document.getElementById('replaceName').checked;
-	var bHoverName = document.getElementById('hoverName').checked;
-	var bHideComments = document.getElementById('hideComments').checked;
-	
-	var bHideShowNames = document.getElementById('hideShowNames').checked;
-	var bHideShowName = document.getElementById('hideShowName').checked;
-	var bHideShowDescription = document.getElementById('hideShowDescription').checked;
-	var bHideShowScreenshot = document.getElementById('hideShowScreenshot').checked;
-
 	chrome.storage.sync.set(
 	{
-		replaceName: bReplaceName,
-		hoverName: bHoverName,
-		hideComments: bHideComments,
-		hideShowNames: bHideShowNames,
-		hideShowName: bHideShowName,
-		hideShowDescription: bHideShowDescription,
-		hideShowScreenshot: bHideShowScreenshot
+		genShowOnHover: document.getElementById('genShowOnHover').checked,
+		genReplaceTitlesWithText: document.getElementById('genReplaceTitlesWithText').checked,
+		genReplaceDescriptionsWithText: document.getElementById('genReplaceDescriptionsWithText').checked,
+		genCommentsShowOnHover: document.getElementById('genCommentsShowOnHover').checked,
+		genReplaceCommentText: document.getElementById('genReplaceCommentText').checked,
+		
+		dashboardHideShowNames: document.getElementById('dashboardHideShowNames').checked,
+		
+		showPageHideDescription: document.getElementById('showPageHideDescription').checked,
+		showPageEpisodeName: document.getElementById('showPageEpisodeName').checked,
+		showPageHideEpisodeScreenshot: document.getElementById('showPageHideEpisodeScreenshot').checked,
+		
+		episodePageHideShowName: document.getElementById('episodePageHideShowName').checked,
+		episodePageHideShowDescription: document.getElementById('episodePageHideShowDescription').checked,
+		episodePageHideShowScreenshot: document.getElementById('episodePageHideShowScreenshot').checked,
+		
+		seasonPageHideSeasonDescription: document.getElementById('seasonPageHideSeasonDescription').checked,
+		seasonPageHideEpisodeName: document.getElementById('seasonPageHideEpisodeName').checked,
+		seasonPageHideEpsiodeDescription: document.getElementById('seasonPageHideEpsiodeDescription').checked,
+		seasonPageHideEpisodeScreenshot: document.getElementById('seasonPageHideEpisodeScreenshot').checked,
+		
+		calendarHideEpisodeName: document.getElementById('calendarHideEpisodeName').checked,
+		
+		progressPageHideEpisodeName: document.getElementById('progressPageHideEpisodeName').checked,
+		progressPageHideEpisodeScreenshot: document.getElementById('progressPageHideEpisodeScreenshot').checked,
+		
+		moviePageHideTagline: document.getElementById('moviePageHideTagline').checked,
+		moviePageHideDescription: document.getElementById('moviePageHideDescription').checked
+		
 	}, function()
 	{
 		// Update status to let user know options were saved.
 		var status = document.getElementById('status');
-		status.textContent = 'Options saved.';
+		status.textContent = 'Options saved. Please refresh any open Trakt.tv pages for chanegs to take effect.';
 		setTimeout(function() {
 		status.textContent = '';
-    }, 750);
+    }, 2000);
   });
 }
 
@@ -36,26 +49,68 @@ function save_options()
 // stored in chrome.storage.
 function restore_options()
 {
-	// Use default value color = 'red' and likesColor = true.
+	console.log(chrome.storage);
 	chrome.storage.sync.get(
 	{
-		replaceName: false,
-		hoverName: true,
-		hideComments: true,
-		hideShowNames: true,
-		hideShowName: true,
-		hideShowDescription: true,
-		hideShowScreenshot: true
+		genShowOnHover: true,
+		genReplaceTitlesWithText: true,
+		genReplaceDescriptionsWithText: true,
+		genCommentsShowOnHover: true,
+		genReplaceCommentText: true,
+		
+		dashboardHideShowNames: true,
+		
+		showPageHideDescription: false,
+		showPageEpisodeName: true,
+		showPageHideEpisodeScreenshot: true,
+		
+		episodePageHideShowName: true,
+		episodePageHideShowDescription: true,
+		episodePageHideShowScreenshot: true,
+		
+		seasonPageHideSeasonDescription: true,
+		seasonPageHideEpisodeName: true,
+		seasonPageHideEpsiodeDescription: true,
+		seasonPageHideEpisodeScreenshot: true,
+		
+		calendarHideEpisodeName: true,
+		
+		progressPageHideEpisodeName: true,
+		progressPageHideEpisodeScreenshot: true,
+		
+		moviePageHideTagline: false,
+		moviePageHideDescription: false
 	}, function(items)
 	{
-		document.getElementById('replaceName').checked = items.replaceName;
-		document.getElementById('hoverName').checked = items.hoverName;
-		document.getElementById('hideComments').checked = items.hideComments;
+		console.log("Here");
+		document.getElementById('genShowOnHover').checked = items.genShowOnHover;
+		document.getElementById('genReplaceTitlesWithText').checked = items.genReplaceTitlesWithText;
+		document.getElementById('genReplaceDescriptionsWithText').checked = items.genReplaceDescriptionsWithText;
+		document.getElementById('genCommentsShowOnHover').checked = items.genCommentsShowOnHover;
+		document.getElementById('genReplaceCommentText').checked = items.genReplaceCommentText;
 		
-		document.getElementById('hideShowNames').checked = items.hideShowNames;
-		document.getElementById('hideShowName').checked = items.hideShowName;
-		document.getElementById('hideShowDescription').checked = items.hideShowDescription;
-		document.getElementById('hideShowScreenshot').checked = items.hideShowScreenshot;
+		document.getElementById('dashboardHideShowNames').checked = items.dashboardHideShowNames;
+		
+		document.getElementById('showPageHideDescription').checked = items.showPageHideDescription;
+		document.getElementById('showPageEpisodeName').checked = items.showPageEpisodeName;
+		document.getElementById('showPageHideEpisodeScreenshot').checked = items.showPageHideEpisodeScreenshot;
+		
+		document.getElementById('episodePageHideShowName').checked = items.episodePageHideShowName;
+		document.getElementById('episodePageHideShowDescription').checked = items.episodePageHideShowDescription;
+		document.getElementById('episodePageHideShowScreenshot').checked = items.episodePageHideShowScreenshot;
+		
+		document.getElementById('seasonPageHideSeasonDescription').checked = items.seasonPageHideSeasonDescription;
+		document.getElementById('seasonPageHideEpisodeName').checked = items.seasonPageHideEpisodeName;
+		document.getElementById('seasonPageHideEpsiodeDescription').checked = items.seasonPageHideEpsiodeDescription;
+		document.getElementById('seasonPageHideEpisodeScreenshot').checked = items.seasonPageHideEpisodeScreenshot;
+		
+		document.getElementById('calendarHideEpisodeName').checked = items.calendarHideEpisodeName;
+		
+		document.getElementById('progressPageHideEpisodeName').checked = items.progressPageHideEpisodeName;
+		document.getElementById('progressPageHideEpisodeScreenshot').checked = items.progressPageHideEpisodeScreenshot;
+		
+		document.getElementById('moviePageHideTagline').checked = items.moviePageHideTagline;
+		document.getElementById('moviePageHideDescription').checked = items.moviePageHideDescription;
   });
 }
 

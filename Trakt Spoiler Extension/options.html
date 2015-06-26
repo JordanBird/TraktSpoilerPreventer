@@ -68,7 +68,7 @@
 			#madeBy
 			{
 				position: fixed;
-				width: 100%;
+				width: 200px;
 				height: 25px;
 				bottom: 0px;
 				
@@ -91,12 +91,13 @@
 			{
 				/* Trakt red: #ed1c24 */
 				background-color: white;
-				width: 100%;
 				height: 100%;
-				
+				width: calc(100% - 210px);
 				position: fixed;
 				left: 200px;
 				padding-left: 10px;
+				
+				overflow: auto;
 			}
 			
 			#header
@@ -108,6 +109,11 @@
 				background-color: rgba(0, 0, 0, 0.6);
 				
 				text-align: center;
+			}
+			
+			#status
+			{
+				color: #ed1c24;
 			}
 		</style>
 	</head>
@@ -132,18 +138,28 @@
 					<h2> General Settings </h2>
 					
 					<label>
-						<input type="checkbox" id="replaceName">
+						<input type="checkbox" id="genReplaceTitlesWithText">
 						Replace episode names with 'Spoiler'. <p><em> Use this option if you want the site to look better and/or will most likely never want to see the name of an episode you have not watched. </em></p>
 					</label>
 					
 					<label>
-						<input type="checkbox" id="hoverName">
+						<input type="checkbox" id="genShowOnHover">
 						Allow names to be viewable when they are hovered over. <p><em> Use this option if you don't mind blocks that you can hover over and/or you may wish to see the name of an episode you are yet to watch. </em></p>
 					</label>
 					
 					<label>
-						<input type="checkbox" id="hideComments">
-						Hide comments on unwatched media.
+						<input type="checkbox" id="genReplaceDescriptionsWithText">
+						When spolier preventing descriptions, replace text with obscuring text.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="genCommentsShowOnHover">
+						Allow comments to be viewable when they are hovered over.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="genReplaceCommentText">
+						Replace comment text with obscuring text.
 					</label>
 				</div>
 				
@@ -151,8 +167,27 @@
 					<h2> Dashboard Settings </h2>
 					
 					<label>
-						<input type="checkbox" id="hideShowNames">
+						<input type="checkbox" id="dashboardHideShowNames">
 						Hide episode names.
+					</label>
+				</div>
+				
+				<div id="showPageSettings">
+					<h2> Show Page Settings </h2>
+					
+					<label>
+						<input type="checkbox" id="showPageHideDescription">
+						Hide show description.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="showPageEpisodeName">
+						Hide episode names on recent episodes.
+					</label>
+
+					<label>
+						<input type="checkbox" id="showPageHideEpisodeScreenshot">
+						Hide episode screenshots on recent episodes.
 					</label>
 				</div>
 				
@@ -160,27 +195,80 @@
 					<h2> Episode Page Settings </h2>
 					
 					<label>
-						<input type="checkbox" id="hideShowName">
+						<input type="checkbox" id="episodePageHideShowName">
 						Hide episode name.
 					</label>
 					
 					<label>
-						<input type="checkbox" id="hideShowDescription">
+						<input type="checkbox" id="episodePageHideShowDescription">
 						Hide episode description.
 					</label>
 					
 					<label>
-						<input type="checkbox" id="hideShowScreenshot">
+						<input type="checkbox" id="episodePageHideShowScreenshot">
 						Hide episode screenshot.
 					</label>
 				</div>
 				
 				<div id="seasonPageSettings">
 					<h2> Season Page Settings </h2>
+					
+					<label>
+						<input type="checkbox" id="seasonPageHideSeasonDescription">
+						Hide season description.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="seasonPageHideEpisodeName">
+						Hide names of unwatched episodes in the season.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="seasonPageHideEpsiodeDescription">
+						Hide descriptions of unwatched episodes in the season.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="seasonPageHideEpisodeScreenshot">
+						Hide screenshots of unwatched episodes in the season.
+					</label>
 				</div>
 				
 				<div id="calendarSettings">
 					<h2> Calendar Settings </h2>
+					
+					<label>
+						<input type="checkbox" id="calendarHideEpisodeName">
+						Hide episode names.
+					</label>
+				</div>
+				
+				<div id="progressPageSettings">
+					<h2> Progress Page Settings </h2>
+					
+					<label>
+						<input type="checkbox" id="progressPageHideEpisodeName">
+						Hide episode names.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="progressPageHideEpisodeScreenshot">
+						Hide episode screenshots.
+					</label>
+				</div>
+				
+				<div id="movieSettings">
+					<h2> Movie Settings </h2>
+					
+					<label>
+						<input type="checkbox" id="moviePageHideTagline">
+						Hide movie tagline.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="moviePageHideDescription">
+						Hide movie description.
+					</label>
 				</div>
 				
 				<div id="status"></div>

@@ -1,4 +1,6 @@
 // Settings
+var settings;
+
 //General
 var showOnHover = true;
 var replaceWithSpoiler = true;
@@ -25,6 +27,10 @@ var setSeasonPageHideEpisodeScreenshot = true;
 
 //Calendar Page
 var setCalendarHideEpisodeName = true;
+
+//Progress Page
+var setProgressPageHideEpisodeName = true;
+var setProgressPageHideEpisodeScreenshot = true;
 
 //Movie Page
 var setMoviePageHideTagline = false;
@@ -57,22 +63,37 @@ function GetSettings()
 {
 	chrome.storage.sync.get(
 	{
-		replaceName: false,
-		hoverName: true,
-		hideComments: true,
-		hideShowNames: true,
-		hideShowName: true,
-		hideShowDescription: true,
-		hideShowScreenshot: true
+		genShowOnHover: true,
+		genReplaceTitlesWithText: true,
+		genReplaceDescriptionsWithText: true,
+		genCommentsShowOnHover: true,
+		genReplaceCommentText: true,
+		
+		dashboardHideShowNames: true,
+		
+		showPageHideDescription: false,
+		showPageEpisodeName: true,
+		showPageHideEpisodeScreenshot: true,
+		
+		episodePageHideShowName: true,
+		episodePageHideShowDescription: true,
+		episodePageHideShowScreenshot: true,
+		
+		seasonPageHideSeasonDescription: true,
+		seasonPageHideEpisodeName: true,
+		seasonPageHideEpsiodeDescription: true,
+		seasonPageHideEpisodeScreenshot: true,
+		
+		calendarHideEpisodeName: true,
+		
+		progressPageHideEpisodeName: true,
+		progressPageHideEpisodeScreenshot: true,
+		
+		moviePageHideTagline: false,
+		moviePageHideDescription: false
 	}, function(items)
 	{
-		showOnHover = items.hoverName;
-		replaceWithSpoiler = items.replaceName;
-		hideComments = items.hideComments;
-		hideShowNames = items.hideShowNames;
-		hideShowName = items.hideShowName;
-		hideShowDescription = items.hideShowDescription;
-		hideShowScreenshot = items.hideShowScreenshot;
+		settings = items;
 	});
 }
 
@@ -127,6 +148,9 @@ function SpoilerPrevent()
 	if (currentWebURL.match(regCalendar))
 		PreventSpoilersCalendar();
 		
+	if (currentWebURL.match(regProgressPage))
+		PreventSpoilersProgressPage();
+	
 	//Spoiler prevent movie if currently active.
 	if (currentWebURL.match(regMoviePage))
 		PreventSpoilersMoviePage();
@@ -135,7 +159,7 @@ function SpoilerPrevent()
 function PreventSpoilersDashboard()
 {
 	//Check if user would like to spoiler prevent or not on Dashboard.
-	if (!hideShowNames)
+	if (!settings.dashboardHideShowNames)
 		return;
 	
 	//For development and user observation purposes.
@@ -156,7 +180,9 @@ function PreventSpoilersShowPage()
 	//For development and user observation purposes.
 	console.log("Attempting to spoiler prevent Show Page.");
 
-	SpoilerPreventDescription();
+	//If the user wants to hide the description on the show page, hide it.
+	if (settings.showPageHideDescription)
+		SpoilerPreventDescription();
 	
 	//Next Episode Images
 	var recentEpisodes = document.getElementsByClassName("recent-episodes");
@@ -176,18 +202,28 @@ function PreventSpoilersShowPage()
 		if (watchSelected.length > 0)
 			continue;
 		
-		//Image
-		var realImage = episodePanels[i].getElementsByClassName("real");
-
-		if (realImage.length > 0)
+		//If the user wants to hide recent episode screenshots, hide this one.
+		if (settings.showPageHideEpisodeScreenshot)
 		{
-			realImage[0].src = showPageFanart;
+			//Image
+			var realImage = episodePanels[i].getElementsByClassName("real");
+	
+			if (realImage.length > 0)
+			{
+				realImage[0].src = showPageFanart;
+			}
 		}
 		
-		//Episode Name
-		var span = episodePanels[i].getElementsByTagName("h3")[0];
-		ReplaceEpisodeTitleWithCustomDiv(span, "ShowPage");
+		//If the user wants to hide recent episode titles, hide this one.
+		if (settings.showPageEpisodeName)
+		{
+			//Episode Name
+			var span = episodePanels[i].getElementsByTagName("h3")[0];
+			ReplaceEpisodeTitleWithCustomDiv(span, "ShowPage");
+		}
 	}
+	
+	SpoilerPreventComments();
 }
 
 function PreventSpoilersEpisodePage()
@@ -219,16 +255,14 @@ function PreventSpoilersEpisodePage()
 		if (thirdValue === undefined)
 		{
 			//If the user wants to hide the show name, hide it. //TODO: Abstract this into a method for readability and modularity.
-			if (hideShowName)
+			if (settings.episodePageHideShowName)
 			{
 				GetHeaderAndApplyCustomDiv("h1", "EpisodePageh1");
 			}
 			
 			//If the user wants to hide the show description, hide it. //TODO: Abstract this into a method for readability and modularity.
-			if (hideShowDescription)
-			{
+			if (settings.episodePageHideShowDescription)
 				SpoilerPreventDescription();
-			}
 			
 			//If the user wants to hide the show screenshots, hide it. //TODO: Abstract this into a method for readability and modularity.
 			if (hideShowScreenshot)
@@ -257,7 +291,7 @@ function PreventSpoilersEpisodePage()
 			//Get check in box.
 			var signin = document.getElementById("checkin-modal");
 			
-			if (hideShowScreenshot)
+			if (settings.episodePageHideShowScreenshot)
 			{
 				//Get the image in the check in box.
 				var images = signin.getElementsByClassName("real");
@@ -272,20 +306,17 @@ function PreventSpoilersEpisodePage()
 				}
 			}
 			
-			if (hideShowName)
+			if (settings.episodePageHideShowName)
 			{
 				GetHeaderAndApplyCustomDiv("h2", "EpisodePageh2");
 				GetHeaderAndApplyCustomDiv("h3", "EpisodePageh3");
 				
-				//Check in box message
+				//Obscure check in box message.
 				document.getElementById("checkin-message").style.color = "white";
-				//document.querySelector(".form-control").style.backgroundColor = document.querySelector(".form-control").style.color;
 			}
 		}
 		
-		//Hide any comments if user has set them to be hidden.
-		if (hideComments)
-			SpoilerPreventComments();
+		SpoilerPreventComments();
 	}
 	catch (e)
 	{
@@ -300,6 +331,10 @@ function PreventSpoilersSeasonPage()
 		//For development and user observation purposes.
 		console.log("Attempting to spoiler prevent a Season Page.");
 	
+		//If the user wants the description of the season hidden, hide it.
+		if (settings.seasonPageHideSeasonDescription)
+			SpoilerPreventDescription();
+		
 		var panels = document.getElementsByClassName("row fanarts");
 		
 		for (i = 0; i < panels.length; i++)
@@ -309,41 +344,49 @@ function PreventSpoilersSeasonPage()
 			if (watchSelected.length > 0)
 				continue;
 			
-			//Hide the text.
-			var headerObjects = panels[i].getElementsByTagName("h3");
-			
-			if (headerObjects.length == 0)
-				return;
-			
-			var titles = headerObjects[1].getElementsByClassName("main-title-sxe");
-			
-			//Get and hide the description
-			var overviewObject = panels[i].getElementsByClassName('overview');
-
-			if (overviewObject.length > 0)
+			//If the user wants to hide the epsiode name, hide it.
+			if (settings.seasonPageHideEpisodeName)
 			{
-				overviewObject[0].innerHTML = "Description may contain spoilers.";
+				var headerObjects = panels[i].getElementsByTagName("h3");
 				
-				overviewObject[0].className = "tspDescriptionHoverSeasonPage";
+				if (headerObjects.length == 0)
+					return;
+				
+				var titles = headerObjects[1].getElementsByClassName("main-title-sxe");
+	
+				if (titles.length == 0)
+					return;
+				
+				ReplaceEpisodeTitleWithCustomDiv(headerObjects[1], "SeasonPage");
 			}
 			
-			if (titles.length == 0)
-				return;
-			
-			ReplaceEpisodeTitleWithCustomDiv(headerObjects[1], "SeasonPage");
-			
-			//Hide the image.
-			var realImage = panels[i].getElementsByClassName("real");
-					
-			if (realImage.length > 0)
+			//If the user wants to hide the epsiode description, hide it.
+			if (settings.seasonPageHideEpsiodeDescription)
 			{
-				realImage[0].remove();
+				//Get and hide the description
+				var overviewObject = panels[i].getElementsByClassName('overview');
+	
+				if (overviewObject.length > 0)
+				{
+					overviewObject[0].innerHTML = "Description may contain spoilers.";
+					
+					overviewObject[0].className = "tspDescriptionHoverSeasonPage";
+				}
+			}
+			
+			//If the user wants to hide the epsiode screenshot, hide it.
+			if (settings.seasonPageHideEpisodeScreenshot)
+			{
+				var realImage = panels[i].getElementsByClassName("real");
+					
+				if (realImage.length > 0)
+				{
+					realImage[0].remove();
+				}
 			}
 		}
 		
-		//Hide any comments if user has set them to be hidden.
-		if (hideComments)
-			SpoilerPreventComments();
+		SpoilerPreventComments();
 	}
 	catch (e)
 	{
@@ -357,6 +400,10 @@ function PreventSpoilersCalendar()
 	{
 		//For development and user observation purposes.
 		console.log("Attempting to spoiler prevent a Calendar.");
+		
+		//If the user has opted to not hide episode names no other spoiler prevention can be made so return.
+		if (!settings.calendarHideEpisodeName)
+			return;
 		
 		var titleObjects = document.getElementsByClassName("grid-item");
 		
@@ -384,10 +431,66 @@ function PreventSpoilersCalendar()
 	}
 }
 
+function PreventSpoilersProgressPage()
+{
+	try
+	{
+		//For development and user observation purposes.
+		console.log("Attempting to spoiler prevent Progress Page.");
+	
+		var panels = document.getElementsByClassName("row fanarts");
+		
+		for (i = 0; i < panels.length; i++)
+		{
+			//Find out if the last episode has been watched.
+			var watchSelected = panels[i].getElementsByClassName("watch selected");
+			
+			//If the last episode ahs been watched move to the next row.
+			if (watchSelected.length > 0)
+				continue;
+			
+			//Hide the episode name if the user wants to.
+			if (settings.progressPageHideEpisodeName)
+			{
+				var headerObjects = panels[i].getElementsByTagName("h3");
+				
+				if (headerObjects.length == 0)
+					return;
+				
+				var titles = headerObjects[1].getElementsByClassName("main-title-sxe");
+				
+				if (titles.length == 0)
+					return;
+				
+				ReplaceEpisodeTitleWithCustomDiv(headerObjects[1], "ShowPage");
+			}
+			
+			//Hide the episode screenshot if the user wants to.
+			if (settings.progressPageHideEpisodeScreenshot)
+			{
+				var realImage = panels[i].getElementsByClassName("real");
+					
+				if (realImage.length > 0)
+				{
+					realImage[0].remove();
+				}
+			}
+		}
+	}
+	catch (e)
+	{
+		console.log(e.message + " Line: " + e.lineNumber);
+	}
+}
+
 function PreventSpoilersMoviePage()
 {
-	SpoilerPreventTagline();
-	SpoilerPreventDescription();
+	if (settings.moviePageHideTagline)
+		SpoilerPreventTagline();
+	
+	if (settings.moviePageHideDescription)
+		SpoilerPreventDescription();
+	
 	SpoilerPreventComments();
 }
 
@@ -416,7 +519,7 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 		var newName = document.createElement("span");
 
 		//If user wishes for episode name to be changed to Spoiler, change it here.
-		if (replaceWithSpoiler)
+		if (settings.genReplaceTitlesWithText)
 		{
 			newName.innerHTML = "Spoiler";
 		}
@@ -426,7 +529,7 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 		}
 		
 		//If user wishes to only see the name on hover, change it here.
-		if (showOnHover)
+		if (settings.genShowOnHover)
 		{
 			newName.className = "tspNameHover" + page;
 		}
@@ -461,11 +564,17 @@ function SpoilerPreventDescription()
 	
 	for (i = 0; i < paragraphs.length; i++)
 	{
-		if (paragraphs[i].id == "overview")
-		{
-			paragraphs[i].innerHTML = "Description may contain spoilers."; //TODO: Check if want name change.
-			paragraphs[i].className = "tspDescriptionHoverEpisodePage"; //TODO: Check if want only on hover.
-		}
+		//Site uses the overview ID multiple times on one page so we must loop through all occurences of p to find them.
+		if (paragraphs[i].id != "overview")
+			continue;
+		
+		//If the user wishes for description to show on hover change the class name to the one with hover functionality.
+		if (settings.genShowOnHover)
+			paragraphs[i].className = "tspDescriptionHoverEpisodePage";
+		
+		//If the user wisehs for description text to be removed remove it.
+		if (settings.genReplaceDescriptionsWithText)
+			paragraphs[i].innerHTML = "Description may contain spoilers.";
 	}
 }
 
@@ -491,12 +600,12 @@ function SpoilerPreventComments()
 	
 	for (i = 0; i < comments.length; i++)
 	{
-		if (true) //Block word
+		if (settings.genReplaceCommentText) //Block word
 		{
-			comments[i].childNodes[0].innerHTML = "Comment may contain spoilers.";
+			comments[i].innerHTML = "Comment may contain spoilers.";
 		}
 		
-		if (true) //Hover only
+		if (settings.genCommentsShowOnHover) //Hover only
 		{
 			comments[i].className = "tspCommentHover";
 		}
