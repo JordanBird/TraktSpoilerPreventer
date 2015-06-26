@@ -25,6 +25,7 @@ var style = "";
 //Regex Matches for Pages on Trakt.tv
 var regDashboard = /trakt.tv\/dashboard/;
 var regEpisodePage = /trakt.tv\/shows\/.+\/seasons\/\d+\/episodes\/\d+/;
+var regShowPage = /trakt.tv\/shows\/.+/;
 var regCalendar = /trakt.tv\/calendars/;
 var regProgressPage = /trakt.tv\/users\/.+\/progress/;
 var regSeasonPage = /trakt.tv\/shows\/.+\/seasons\/\d+/;
@@ -98,6 +99,9 @@ function SpoilerPrevent()
 	if (currentWebURL.match(regDashboard))
 		PreventSpoilersDashboard();
 	
+	if (currentWebURL.match(regShowPage))
+		PreventSpoilersShowPage();
+	
 	if (currentWebURL.match(regEpisodePage))
 		PreventSpoilersEpisodePage();
 	
@@ -119,20 +123,44 @@ function PreventSpoilersDashboard()
 	
 	try
 	{
-		var titleObjects = document.getElementsByTagName("h5");
-
-		//Dashboard spoiler prevention.
-		for (i = 0; i < titleObjects.length; i++)
-		{
-			if (titleObjects[i].getElementsByClassName("main-title-sxe").length > 0)
-			{
-				ReplaceEpisodeTitleWithCustomDiv(titleObjects[i], "Dashboard");
-			}
-		}
+		GetHeaderAndApplyCustomDiv("h5", "Dashboard");
 	}
 	catch (e)
 	{
 		console.log(e.message + " Line: " + e.lineNumber);
+	}
+}
+
+function PreventSpoilersShowPage()
+{
+	//For development and user observation purposes.
+	console.log("Attempting to spoiler prevent Show Page.");
+
+	SpoilerPreventDescription();
+	
+	//Next Episode Images
+	var recentEpisodes = document.getElementsByClassName("recent-episodes");
+	
+	if (recentEpisodes.length == 0)
+		return;
+	
+	var episodePanels = recentEpisodes[0].getElementsByClassName("grid-item");
+
+	var showPageFanart = document.getElementById("summary-wrapper").style.backgroundImage.replace('url(', '').replace(')', '');
+	
+	for (i = 0; i < episodePanels.length; i++)
+	{
+		var watchSelected = episodePanels[i].getElementsByClassName("watch selected");
+
+		if (watchSelected.length > 0)
+			continue;
+			
+		var realImage = episodePanels[i].getElementsByClassName("real");
+		
+		if (realImage.length > 0)
+		{
+			realImage[0].src = showPageFanart;
+		}
 	}
 }
 
@@ -167,32 +195,13 @@ function PreventSpoilersEpisodePage()
 			//If the user wants to hide the show name, hide it. //TODO: Abstract this into a method for readability and modularity.
 			if (hideShowName)
 			{
-				var mainTitleObjects = document.getElementsByTagName("h1");
-			
-				//Find the title and spoiler prevent.
-				for (i = 0; i < mainTitleObjects.length; i++)
-				{
-					if (mainTitleObjects[i].getElementsByClassName("main-title-sxe").length > 0)
-					{
-						ReplaceEpisodeTitleWithCustomDiv(mainTitleObjects[i], "EpisodePageh1");
-					}
-				}
+				GetHeaderAndApplyCustomDiv("h1", "EpisodePageh1");
 			}
 			
 			//If the user wants to hide the show description, hide it. //TODO: Abstract this into a method for readability and modularity.
 			if (hideShowDescription)
 			{
-				//Prevent spoilers in the description.
-				var paragraphs = document.getElementsByTagName("p");
-				
-				for (i = 0; i < paragraphs.length; i++)
-				{
-					if (paragraphs[i].id == "overview")
-					{
-						paragraphs[i].innerHTML = "Description may contain spoilers."; //TODO: Check if want name change.
-						paragraphs[i].className = "tspDescriptionHoverEpisodePage"; //TODO: Check if want only on hover.
-					}
-				}
+				SpoilerPreventDescription();
 			}
 			
 			//If the user wants to hide the show screenshots, hide it. //TODO: Abstract this into a method for readability and modularity.
@@ -239,57 +248,12 @@ function PreventSpoilersEpisodePage()
 			
 			if (hideShowName)
 			{
-				//Check in box episode title (h2)
-				var popupTitleObjects = document.getElementsByTagName("h2");
-				
-				for (i = 0; i < popupTitleObjects.length; i++)
-				{
-					if (popupTitleObjects[i].getElementsByClassName("main-title-sxe").length > 0)
-					{
-						ReplaceEpisodeTitleWithCustomDiv(popupTitleObjects[i], "EpisodePageh2");
-					}
-				}
-				
-				//Check in box episode title (h3)
-				var popupTitleObjectsh3 = document.getElementsByTagName("h3");
-				
-				for (i = 0; i < popupTitleObjectsh3.length; i++)
-				{
-					if (popupTitleObjectsh3[i].getElementsByClassName("main-title-sxe").length > 0)
-					{
-						ReplaceEpisodeTitleWithCustomDiv(popupTitleObjectsh3[i], "EpisodePageh3");
-					}
-				}
+				GetHeaderAndApplyCustomDiv("h2", "EpisodePageh2");
+				GetHeaderAndApplyCustomDiv("h3", "EpisodePageh3");
 				
 				//Check in box message
 				document.getElementById("checkin-message").style.color = "white";
 				//document.querySelector(".form-control").style.backgroundColor = document.querySelector(".form-control").style.color;
-			}
-
-			//Show overview page. //TODO: Add this to its on method with settings.
-			//Next Episode Images
-			var recentEpisodes = document.getElementsByClassName("recent-episodes");
-			
-			if (recentEpisodes.length == 0)
-				return;
-			
-			var episodePanels = recentEpisodes[0].getElementsByClassName("grid-item");
-
-			var showPageFanart = document.getElementById("summary-wrapper").style.backgroundImage.replace('url(', '').replace(')', '');
-			
-			for (i = 0; i < episodePanels.length; i++)
-			{
-				var watchSelected = episodePanels[i].getElementsByClassName("watch selected");
-		
-				if (watchSelected.length > 0)
-					continue;
-					
-				var realImage = episodePanels[i].getElementsByClassName("real");
-				
-				if (realImage.length > 0)
-				{
-					realImage[0].src = showPageFanart;
-				}
 			}
 		}
 		
@@ -442,6 +406,34 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 		span.appendChild(newName);
 	}
 	catch (e) { }
+}
+
+function GetHeaderAndApplyCustomDiv(headerLevel, page)
+{
+	var headerElements = document.getElementsByTagName(headerLevel);
+	
+	for (i = 0; i < headerElements.length; i++)
+	{
+		if (headerElements[i].getElementsByClassName("main-title-sxe").length > 0)
+		{
+			ReplaceEpisodeTitleWithCustomDiv(headerElements[i], page);
+		}
+	}
+}
+
+function SpoilerPreventDescription()
+{
+	//Prevent spoilers in the description.
+	var paragraphs = document.getElementsByTagName("p");
+	
+	for (i = 0; i < paragraphs.length; i++)
+	{
+		if (paragraphs[i].id == "overview")
+		{
+			paragraphs[i].innerHTML = "Description may contain spoilers."; //TODO: Check if want name change.
+			paragraphs[i].className = "tspDescriptionHoverEpisodePage"; //TODO: Check if want only on hover.
+		}
+	}
 }
 
 function SpoilerPreventComments()
