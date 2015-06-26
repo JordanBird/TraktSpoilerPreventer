@@ -7,8 +7,10 @@ var hideComments = true;
 //Dashboard
 var hideShowNames = true;
 
-var hoverColour = "white";
-var normalColour = "#333333";
+//Show Page
+var setShowPageHideDescription = false;
+var setShowPageEpisodeName = true;
+var setShowPageHideEpisodeScreenshot = true;
 
 //Episode Page
 var hideShowName = true;
@@ -16,13 +18,20 @@ var hideShowDescription = true;
 var hideShowScreenshot = true;
 
 //Season Page
+var setSeasonPageHideSeasonDescription = true;
+var setSeasonPageHideEpisodeName = true;
+var setSeasonPageHideEpsiodeDescription = true;
+var setSeasonPageHideEpisodeScreenshot = true;
 
 //Calendar Page
+var setCalendarHideEpisodeName = true;
 
+//Movie Page
+var setMoviePageHideTagline = false;
+var setMoviePageHideDescription = false;
+var setMoviePageHideComments = true;
 
-var style = "";
-
-//Regex Matches for Pages on Trakt.tv
+// Regex Matches for Pages on Trakt.tv
 var regDashboard = /trakt.tv\/dashboard/;
 var regEpisodePage = /trakt.tv\/shows\/.+\/seasons\/\d+\/episodes\/\d+/;
 var regShowPage = /trakt.tv\/shows\/.+/;
@@ -30,12 +39,23 @@ var regCalendar = /trakt.tv\/calendars/;
 var regProgressPage = /trakt.tv\/users\/.+\/progress/;
 var regSeasonPage = /trakt.tv\/shows\/.+\/seasons\/\d+/;
 
-//CSS Rule for Screenshots
-var backgroundCss = ".tspEpisodePageScreenshot{background-image: url(fanart) !important;}";
+var regMoviePage = /trakt.tv\/movies\/.+/;
+
+// CSS Rule for Screenshots
 var currentBackgroundCSSRule;
 
-//Get settings. //TODO: Put into method. Perhaps two by abstracting get?
-chrome.storage.sync.get(
+//Pull in stored settings.
+GetSettings();
+
+//Start the scanner.
+DOMModificationHandler();
+
+//Get the users name if they're logged in for popup purposes.
+GetAndSaveUserName();
+
+function GetSettings()
+{
+	chrome.storage.sync.get(
 	{
 		replaceName: false,
 		hoverName: true,
@@ -53,13 +73,8 @@ chrome.storage.sync.get(
 		hideShowName = items.hideShowName;
 		hideShowDescription = items.hideShowDescription;
 		hideShowScreenshot = items.hideShowScreenshot;
-  });
-
-//Start the scanner.
-DOMModificationHandler();
-
-//Get the users name if they're logged in for popup purposes.
-GetAndSaveUserName();
+	});
+}
 
 function GetAndSaveUserName()
 {
@@ -96,6 +111,7 @@ function SpoilerPrevent()
 	//Get the current URL for the page ready to compare to the regex defined above so that certain methods are only called on certain pages.
 	var currentWebURL = window.location.href;
 	
+	//Spoiler prevent TV pages if currently active.
 	if (currentWebURL.match(regDashboard))
 		PreventSpoilersDashboard();
 	
@@ -110,6 +126,10 @@ function SpoilerPrevent()
 	
 	if (currentWebURL.match(regCalendar))
 		PreventSpoilersCalendar();
+		
+	//Spoiler prevent movie if currently active.
+	if (currentWebURL.match(regMoviePage))
+		PreventSpoilersMoviePage();
 }
 
 function PreventSpoilersDashboard()
@@ -150,17 +170,23 @@ function PreventSpoilersShowPage()
 	
 	for (i = 0; i < episodePanels.length; i++)
 	{
+		//Check if episode has been watched.
 		var watchSelected = episodePanels[i].getElementsByClassName("watch selected");
 
 		if (watchSelected.length > 0)
 			continue;
-			
-		var realImage = episodePanels[i].getElementsByClassName("real");
 		
+		//Image
+		var realImage = episodePanels[i].getElementsByClassName("real");
+
 		if (realImage.length > 0)
 		{
 			realImage[0].src = showPageFanart;
 		}
+		
+		//Episode Name
+		var span = episodePanels[i].getElementsByTagName("h3")[0];
+		ReplaceEpisodeTitleWithCustomDiv(span, "ShowPage");
 	}
 }
 
@@ -358,6 +384,13 @@ function PreventSpoilersCalendar()
 	}
 }
 
+function PreventSpoilersMoviePage()
+{
+	SpoilerPreventTagline();
+	SpoilerPreventDescription();
+	SpoilerPreventComments();
+}
+
 function CheckIfPageIsEpisodePage()
 {
 	return document.getElementsByClassName("btn btn-block btn-summary btn-watch").length == 0;
@@ -431,6 +464,21 @@ function SpoilerPreventDescription()
 		if (paragraphs[i].id == "overview")
 		{
 			paragraphs[i].innerHTML = "Description may contain spoilers."; //TODO: Check if want name change.
+			paragraphs[i].className = "tspDescriptionHoverEpisodePage"; //TODO: Check if want only on hover.
+		}
+	}
+}
+
+function SpoilerPreventTagline()
+{
+	//Prevent spoilers in the description.
+	var paragraphs = document.getElementsByTagName("p");
+	
+	for (i = 0; i < paragraphs.length; i++)
+	{
+		if (paragraphs[i].id == "tagline")
+		{
+			paragraphs[i].innerHTML = "Tagline may contain spoilers."; //TODO: Check if want name change.
 			paragraphs[i].className = "tspDescriptionHoverEpisodePage"; //TODO: Check if want only on hover.
 		}
 	}
