@@ -1,49 +1,13 @@
 // Settings
 var settings;
 
-//General
-var showOnHover = true;
-var replaceWithSpoiler = true;
-var hideComments = true;
-
-//Dashboard
-var hideShowNames = true;
-
-//Show Page
-var setShowPageHideDescription = false;
-var setShowPageEpisodeName = true;
-var setShowPageHideEpisodeScreenshot = true;
-
-//Episode Page
-var hideShowName = true;
-var hideShowDescription = true;
-var hideShowScreenshot = true;
-
-//Season Page
-var setSeasonPageHideSeasonDescription = true;
-var setSeasonPageHideEpisodeName = true;
-var setSeasonPageHideEpsiodeDescription = true;
-var setSeasonPageHideEpisodeScreenshot = true;
-
-//Calendar Page
-var setCalendarHideEpisodeName = true;
-
-//Progress Page
-var setProgressPageHideEpisodeName = true;
-var setProgressPageHideEpisodeScreenshot = true;
-
-//Movie Page
-var setMoviePageHideTagline = false;
-var setMoviePageHideDescription = false;
-var setMoviePageHideComments = true;
-
 // Regex Matches for Pages on Trakt.tv
-var regDashboard = /trakt.tv\/dashboard/;
-var regEpisodePage = /trakt.tv\/shows\/.+\/seasons\/\d+\/episodes\/\d+/;
-var regShowPage = /trakt.tv\/shows\/.+/;
+var regDashboard = /trakt.tv\/dashboard$/;
+var regEpisodePage = /trakt.tv\/shows\/.+\/seasons\/\d+\/episodes\/\d+$/;
+var regShowPage = /trakt.tv\/shows\/([^/]|\\")*$/;
 var regCalendar = /trakt.tv\/calendars/;
 var regProgressPage = /trakt.tv\/users\/.+\/progress/;
-var regSeasonPage = /trakt.tv\/shows\/.+\/seasons\/\d+/;
+var regSeasonPage = /trakt.tv\/shows\/.+\/seasons\/\d+$/;
 
 var regMoviePage = /trakt.tv\/movies\/.+/;
 
@@ -154,6 +118,9 @@ function SpoilerPrevent()
 	//Spoiler prevent movie if currently active.
 	if (currentWebURL.match(regMoviePage))
 		PreventSpoilersMoviePage();
+	
+	//Prevent any toast message name spoilers if present.
+	SpoilerPreventToastMessage();
 }
 
 function PreventSpoilersDashboard()
@@ -589,6 +556,39 @@ function SpoilerPreventTagline()
 		{
 			paragraphs[i].innerHTML = "Tagline may contain spoilers."; //TODO: Check if want name change.
 			paragraphs[i].className = "tspDescriptionHoverEpisodePage"; //TODO: Check if want only on hover.
+		}
+	}
+}
+
+function SpoilerPreventToastMessage()
+{
+	var toastMessageRegex = /.+ \d+x\d+ ".+"/;
+	var removalRegex = / "([^"]|\\")*"$/m;
+	
+	//Check if the container is actually present in the page. If not, return as no further action can be taken.
+	if (document.getElementById("toast-container") === undefined)
+		return;
+	
+	var toastMessages = document.getElementsByClassName("toast-message");
+	
+	//If no messages found return as no action can be taken.
+	if (toastMessages.length == 0)
+		return;
+	
+	//Loop through all found toast messages.
+	for (i = 0; i < toastMessages.length; i++)
+	{
+		var strongElements = toastMessages[i].getElementsByTagName("strong");
+		
+		//If no strong tags found return as no action can be taken.
+		if (strongElements.length == 0)
+			return;
+		
+		//Loop through all found 'strong' elements.
+		for (j = 0; j < strongElements.length; j++)
+		{
+			if (strongElements[j].innerHTML.match(toastMessageRegex))
+				strongElements[j].innerHTML = strongElements[j].innerHTML.replace(removalRegex, "");
 		}
 	}
 }
