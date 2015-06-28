@@ -121,6 +121,8 @@ function SpoilerPrevent()
 	
 	//Prevent any toast message name spoilers if present.
 	SpoilerPreventToastMessage();
+	
+	SpolierPreventWatchingNow();
 }
 
 function PreventSpoilersDashboard()
@@ -140,6 +142,8 @@ function PreventSpoilersDashboard()
 	{
 		console.log(e.message + " Line: " + e.lineNumber);
 	}
+	
+	SpoilerPreventNetworkActivity();
 }
 
 function PreventSpoilersShowPage()
@@ -590,6 +594,33 @@ function SpoilerPreventToastMessage()
 			if (strongElements[j].innerHTML.match(toastMessageRegex))
 				strongElements[j].innerHTML = strongElements[j].innerHTML.replace(removalRegex, "");
 		}
+	}
+}
+
+function SpolierPreventWatchingNow()
+{
+	var episodeTitleInHTMLRegex = /<\/span> ".+"<\/a>/;
+	
+	var watchingNowWrapper = document.getElementById("watching-now-wrapper");
+	
+	//If element was not found it does not exist on the page so abort spoiler prevention.
+	if (watchingNowWrapper === undefined || watchingNowWrapper === null)
+		return;
+	
+	watchingNowWrapper.innerHTML = watchingNowWrapper.innerHTML.replace(episodeTitleInHTMLRegex, "</span></a>");
+}
+
+function SpoilerPreventNetworkActivity()
+{
+	var removalRegex = / "([^"]|\\")*"$/m;
+	var posterUnders = document.getElementsByClassName("poster-under");
+	
+	for (i = 0; i < posterUnders.length; i++)
+	{
+		if (posterUnders[i].childNodes.length < 3)
+			continue;
+		
+		posterUnders[i].childNodes[3].innerHTML = posterUnders[i].childNodes[3].innerHTML.replace(removalRegex, "");
 	}
 }
 
