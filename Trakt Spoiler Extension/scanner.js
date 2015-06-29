@@ -17,9 +17,6 @@ var currentBackgroundCSSRule;
 //Pull in stored settings.
 GetSettings();
 
-//Start the scanner.
-DOMModificationHandler();
-
 //Get the users name if they're logged in for popup purposes.
 GetAndSaveUserName();
 
@@ -58,6 +55,9 @@ function GetSettings()
 	}, function(items)
 	{
 		settings = items;
+		
+		//Start the scanner.
+		DOMModificationHandler(); //TODO: Put this in a proper method so a chain is established. This is a execution null fix.
 	});
 }
 
@@ -236,7 +236,7 @@ function PreventSpoilersEpisodePage()
 				SpoilerPreventDescription();
 			
 			//If the user wants to hide the show screenshots, hide it. //TODO: Abstract this into a method for readability and modularity.
-			if (hideShowScreenshot)
+			if (settings.episodePageHideShowScreenshot)
 			{
 				//Prevent spoilers from images on main page.			
 				var wrapper = document.getElementById("summary-wrapper");

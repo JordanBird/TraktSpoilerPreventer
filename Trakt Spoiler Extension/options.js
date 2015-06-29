@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', SetupPage);
-console.log(chrome.storage);
+
 // Saves options to chrome.storage
 function save_options()
 {
@@ -49,7 +49,6 @@ function save_options()
 // stored in chrome.storage.
 function restore_options()
 {
-	console.log(chrome.storage);
 	chrome.storage.sync.get(
 	{
 		genShowOnHover: true,
@@ -82,7 +81,6 @@ function restore_options()
 		moviePageHideDescription: false
 	}, function(items)
 	{
-		console.log("Here");
 		document.getElementById('genShowOnHover').checked = items.genShowOnHover;
 		document.getElementById('genReplaceTitlesWithText').checked = items.genReplaceTitlesWithText;
 		document.getElementById('genReplaceDescriptionsWithText').checked = items.genReplaceDescriptionsWithText;
@@ -118,4 +116,102 @@ function SetupPage()
 {
 	restore_options();
 	document.getElementById("save").addEventListener('click', save_options);
+	SetOnChangeFunctions();
+}
+
+function ToggleClassSettings(className, checked)
+{
+	var elements = document.getElementsByClassName(className);
+	
+	for (i = 0; i < elements.length; i++)
+	{
+		try
+		{
+			elements[i].checked = checked;
+		}
+		catch (e) { }
+	}
+}
+
+function ToggleGeneralSettings()
+{
+	var generalAll = document.getElementById("generalAll");
+	
+	ToggleClassSettings("generalSetting", generalAll.checked);
+}
+
+function ToggleDashboardSettings()
+{
+	var dashboardAll = document.getElementById("dashboardAll");
+	
+	ToggleClassSettings("dashboardSetting", dashboardAll.checked);
+}
+
+function ToggleShowPageSettings()
+{
+	var showPageAll = document.getElementById("showPageAll");
+	
+	ToggleClassSettings("showPageSetting", showPageAll.checked);
+}
+
+function ToggleEpisodePageSettings()
+{
+	var episodePageAll = document.getElementById("episodePageAll");
+	
+	ToggleClassSettings("episodePageSetting", episodePageAll.checked);
+}
+
+function ToggleSeasonPageSettings()
+{
+	var seasonPageAll = document.getElementById("seasonPageAll");
+	
+	ToggleClassSettings("seasonPageSetting", seasonPageAll.checked);
+}
+
+function ToggleCalendarSettings()
+{
+	var calendarAll = document.getElementById("calendarAll");
+	
+	ToggleClassSettings("calendarSetting", calendarAll.checked);
+}
+
+function ToggleProgressPageSettings()
+{
+	var progressPageAll = document.getElementById("progressPageAll");
+	
+	ToggleClassSettings("progressPageSetting", progressPageAll.checked);
+}
+
+function ToggleMovieSettings()
+{
+	var movieAll = document.getElementById("movieAll");
+	
+	ToggleClassSettings("movieSetting", movieAll.checked);
+}
+
+function SetOnChangeFunctions()
+{
+	var general = document.getElementById("generalAll");
+	general.addEventListener("change", ToggleGeneralSettings);
+	
+	var dashboard = document.getElementById("dashboardAll");
+	dashboard.addEventListener("change", ToggleDashboardSettings);
+	
+	var showPage = document.getElementById("showPageAll");
+	showPage.addEventListener("change", ToggleShowPageSettings);
+	
+	var episodePage = document.getElementById("episodePageAll");
+	episodePage.addEventListener("change", ToggleEpisodePageSettings);
+	
+	var seasonPage = document.getElementById("seasonPageAll");
+	seasonPage.addEventListener("change", ToggleSeasonPageSettings);
+	
+	var calendar = document.getElementById("calendarAll");
+	calendar.addEventListener("change", ToggleCalendarSettings);
+	
+	var progressPage = document.getElementById("progressPageAll");
+	progressPage.addEventListener("change", ToggleProgressPageSettings);
+	
+	var movie = document.getElementById("movieAll");
+	movie.addEventListener("change", ToggleMovieSettings);
 }
