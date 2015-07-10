@@ -1,24 +1,26 @@
 .tspNameHoverDashboard:hover
 {
-	background-color: white;
+	-webkit-filter: blur(0px);
+	
 	padding-left: 5px;
 }
 
 .tspNameHoverDashboard
 {
-	background-color: #333333;
+	-webkit-filter: blur(5px);
+	
 	padding-left: 5px;
 }
 
 .tspNameHoverShowPage:hover
 {
-	background-color: transparent;
+	-webkit-filter: blur(0px);
 	padding-left: 15px;
 }
 
 .tspNameHoverShowPage
 {
-	background-color: white;
+	-webkit-filter: blur(5px);
 	padding-left: 15px;
 	
 	text-shadow: 0 0 0px black;
@@ -26,98 +28,92 @@
 
 .tspNameHoverEpisodePageh1:hover
 {
-	background-color: transparent;
+	-webkit-filter: blur(0px);
 	padding-left: 15px;
 }
 
 .tspNameHoverEpisodePageh1
 {
-	background-color: white;
+	-webkit-filter: blur(7px);
 	padding-left: 15px;
-	
-	text-shadow: 0 0 0px black;
 }
 
 .tspNameHoverEpisodePageh2:hover
 {
-	background-color: transparent;
+	-webkit-filter: blur(0px);
 	padding-left: 5px;
 }
 
 .tspNameHoverEpisodePageh2
 {
-	background-color: white;
+	-webkit-filter: blur(5px);
 	padding-left: 5px;
-	
-	text-shadow: 0 0 0px black;
 }
 
 .tspNameHoverEpisodePageh3:hover
 {
-	background-color: transparent;
+	-webkit-filter: blur(0px);
 	padding-left: 5px;
 }
 
 .tspNameHoverEpisodePageh3
 {
-	background-color: white;
+	-webkit-filter: blur(5px);
 	padding-left: 5px;
-	
-	text-shadow: 0 0 0px black;
 }
 
 .tspNameHoverSeasonPage:hover
 {
-	background-color: transparent;
+	-webkit-filter: blur(0px);
 	padding-left: 5px;
 }
 
 .tspNameHoverSeasonPage
 {
-	background-color: #333333;
+	-webkit-filter: blur(5px);
 	padding-left: 5px;
 }
 
 .tspDescriptionHoverSeasonPage:hover
 {
-	background-color: transparent;
+	-webkit-filter: blur(0px);
 }
 
 .tspDescriptionHoverSeasonPage
 {
-	background-color: #333333;
+	-webkit-filter: blur(5px);
 }
 
 .tspNameHoverCalendar:hover
 {
-	background-color: transparent;
+	-webkit-filter: blur(0px);
 	padding-left: 5px;
 }
 
 .tspNameHoverCalendar
 {
-	background-color: white;
+	-webkit-filter: blur(5px);
 	padding-left: 5px;
 }
 
 .tspDescriptionHoverEpisodePage
 {
-	background-color: #333333;
+	-webkit-filter: blur(5px);
 }
 
 .tspDescriptionHoverEpisodePage:hover
 {
-	background-color: transparent;
+	-webkit-filter: blur(0px);
 }
 
 .tspCommentHover
 {
-	background-color: #333333;
+	-webkit-filter: blur(5px);
 }
 
 .tspCommentHover:hover
 {
-	background-color: transparent;
+	-webkit-filter: blur(0px);
 }
 
 .tspEpisodePageScreenshot

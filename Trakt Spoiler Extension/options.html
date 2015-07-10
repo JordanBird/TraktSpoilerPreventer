@@ -92,7 +92,7 @@
 			{
 				/* Trakt red: #ed1c24 */
 				background-color: white;
-				height: 100%;
+				height: calc(100% - 14px);
 				width: calc(100% - 210px);
 				position: fixed;
 				left: 200px;
@@ -117,10 +117,25 @@
 				color: #ed1c24;
 			}
 			
+			#disclaimer
+			{
+				background-color: black;
+				margin-left: 201px;
+			}
+			
+			.filler
+			{
+				padding: 15px;
+			}
 		</style>
 	</head>
 	<body>
+		
+		
 		<div id="wrapper">
+			<div id="disclaimer">
+			<b>This extension is not developed by the staff at Trakt.tv. All support questions regarding the extension should be directed to me and not the Trakt.tv site. <a href="http://www.jordanbird.co.uk/contact/" target="_blank">Contact me.</a></b>
+		</div>
 			<div id="container">
 				<div id ="blurredBackground">
 				</div>
@@ -135,33 +150,40 @@
 						<p> Created by <a href="http://www.jordanbird.co.uk">Jordan Bird</a></p>
 					</div>
 				</div>
-
+				
+				
+				
 				<div id="generalSettings">
 					<h2> General Settings </h2> <input type="checkbox" id="generalAll">
 					
 					<label>
-						<input type="checkbox" id="genReplaceTitlesWithText" class="generalSetting">
-						Replace episode names with 'Spoiler'. <p><em> Use this option if you want the site to look better and/or will most likely never want to see the name of an episode you have not watched. </em></p>
+						<input type="checkbox" id="genShowOnHover" class="generalSetting">
+						Obscure names and reveal on hover.
 					</label>
 					
 					<label>
-						<input type="checkbox" id="genShowOnHover" class="generalSetting">
-						Allow names to be viewable when they are hovered over. <p><em> Use this option if you don't mind blocks that you can hover over and/or you may wish to see the name of an episode you are yet to watch. </em></p>
+						<input type="checkbox" id="genReplaceTitlesWithText" class="generalSetting">
+						Replace episode names with 'Spoiler'.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="genShowDescriptionsOnHover" class="generalSetting">
+						Obscure descriptions and reveal on hover.
 					</label>
 					
 					<label>
 						<input type="checkbox" id="genReplaceDescriptionsWithText" class="generalSetting">
-						When spolier preventing descriptions, replace text with obscuring text.
+						Replace description with 'Description may contain spoilers'.
 					</label>
 					
 					<label>
 						<input type="checkbox" id="genCommentsShowOnHover" class="generalSetting">
-						Allow comments to be viewable when they are hovered over.
+						Obscure comments and reveal on hover.
 					</label>
 					
 					<label>
 						<input type="checkbox" id="genReplaceCommentText" class="generalSetting">
-						Replace comment text with obscuring text.
+						Replace comment with 'Comment may contain spoilers'.
 					</label>
 				</div>
 				
@@ -273,8 +295,10 @@
 					</label>
 				</div>
 				
+				<div class="filler"/>
 				<div id="status"></div>
 				<button id="save">Save</button>
+				<button id="reset">Reset to Defaults</button>
 			</div>
 		</div>
 	</body>

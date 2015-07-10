@@ -2,8 +2,9 @@
 	"manifest_version": 2,
 	
 	"name": "Trakt Spoiler Preventer",
-	"description": "This extension will attempt to hide any spoilers on the current Trakt page.",
-	"version": "1.0",
+	"short_name": "Trakt SP",
+	"description": "Trakt.tv but without the spoilers. Titles, screenshots and comments are all able to be obscured by this extension.",
+	"version": "2.0",
 	
 	"author": "Jordan Bird",
 	
@@ -20,7 +21,6 @@
 		"128": "icon128.png" },
 	"content_scripts": [{
 		"matches": ["*://trakt.tv/*"],
-		"runat" : "document_end",
 		"all_frames" : true,
 		"js":      ["jquery.min.js", "scanner.js"],
 		"css": ["traktSpoilerPreventerOverride.css"]

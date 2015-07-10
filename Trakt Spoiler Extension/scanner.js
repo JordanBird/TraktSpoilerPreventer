@@ -256,6 +256,14 @@ function PreventSpoilersEpisodePage()
 				
 				//Set the wrappers class name to the TSP one.
 				wrapper.className = "tspEpisodePageScreenshot";
+				
+				//Get and set full-screenshot div.
+				var fullScreenshotDivs = wrapper.getElementsByClassName("full-screenshot");
+				
+				if (fullScreenshotDivs.length > 0)
+				{
+					fullScreenshotDivs[0].className = "tspEpisodePageScreenshot";
+				}
 			}
 			
 			// Sign in box spoiler prevention.
@@ -439,11 +447,16 @@ function PreventSpoilersProgressPage()
 			//Hide the episode screenshot if the user wants to.
 			if (settings.progressPageHideEpisodeScreenshot)
 			{
-				var realImage = panels[i].getElementsByClassName("real");
-					
-				if (realImage.length > 0)
+				var fanarts = document.getElementsByClassName("fanart");
+				
+				for (var f = 0; f < fanarts.length; f++)
 				{
-					realImage[0].remove();
+					var reals = fanarts[f].getElementsByClassName("real");
+					
+					if (reals.length > 0)
+					{
+						reals[0].remove();
+					}
 				}
 			}
 		}
@@ -477,7 +490,7 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 		var episodeAndSeason = span.getElementsByClassName("main-title-sxe")[0].innerHTML;
 
 		var episodename = span.innerHTML.split("</span> ")[1];
-		
+
 		if (span.innerHTML.indexOf("<span class=\"tspNameHover") > -1)
 		{
 			episodename = span.innerHTML.split("<span class=\"tspNameHover\">")[1].split("</span>")[0];
@@ -492,11 +505,11 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 		//If user wishes for episode name to be changed to Spoiler, change it here.
 		if (settings.genReplaceTitlesWithText)
 		{
-			newName.innerHTML = "Spoiler";
+			newName.innerHTML = " Spoiler";
 		}
 		else
 		{
-			newName.innerHTML = episodename;
+			newName.innerHTML = " " + episodename;
 		}
 		
 		//If user wishes to only see the name on hover, change it here.
@@ -521,7 +534,7 @@ function GetHeaderAndApplyCustomDiv(headerLevel, page)
 	
 	for (i = 0; i < headerElements.length; i++)
 	{
-		if (headerElements[i].getElementsByClassName("main-title-sxe").length > 0)
+		if (headerElements[i].getElementsByClassName("main-title-sxe").length > 0 && headerElements[i].getElementsByClassName("tspNameNoHoverDashboard").length == 0)
 		{
 			ReplaceEpisodeTitleWithCustomDiv(headerElements[i], page);
 		}
@@ -540,7 +553,7 @@ function SpoilerPreventDescription()
 			continue;
 		
 		//If the user wishes for description to show on hover change the class name to the one with hover functionality.
-		if (settings.genShowOnHover)
+		if (settings.genShowDescriptionsOnHover)
 			paragraphs[i].className = "tspDescriptionHoverEpisodePage";
 		
 		//If the user wisehs for description text to be removed remove it.

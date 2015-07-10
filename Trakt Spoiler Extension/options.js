@@ -7,6 +7,7 @@ function save_options()
 	{
 		genShowOnHover: document.getElementById('genShowOnHover').checked,
 		genReplaceTitlesWithText: document.getElementById('genReplaceTitlesWithText').checked,
+		genShowDescriptionsOnHover: document.getElementById('genShowDescriptionsOnHover').checked,
 		genReplaceDescriptionsWithText: document.getElementById('genReplaceDescriptionsWithText').checked,
 		genCommentsShowOnHover: document.getElementById('genCommentsShowOnHover').checked,
 		genReplaceCommentText: document.getElementById('genReplaceCommentText').checked,
@@ -52,10 +53,11 @@ function restore_options()
 	chrome.storage.sync.get(
 	{
 		genShowOnHover: true,
-		genReplaceTitlesWithText: true,
-		genReplaceDescriptionsWithText: true,
+		genReplaceTitlesWithText: false,
+		genShowDescriptionsOnHover: true,
+		genReplaceDescriptionsWithText: false,
 		genCommentsShowOnHover: true,
-		genReplaceCommentText: true,
+		genReplaceCommentText: false,
 		
 		dashboardHideShowNames: true,
 		
@@ -83,6 +85,7 @@ function restore_options()
 	{
 		document.getElementById('genShowOnHover').checked = items.genShowOnHover;
 		document.getElementById('genReplaceTitlesWithText').checked = items.genReplaceTitlesWithText;
+		document.getElementById('genShowDescriptionsOnHover').checked = items.genShowDescriptionsOnHover;
 		document.getElementById('genReplaceDescriptionsWithText').checked = items.genReplaceDescriptionsWithText;
 		document.getElementById('genCommentsShowOnHover').checked = items.genCommentsShowOnHover;
 		document.getElementById('genReplaceCommentText').checked = items.genReplaceCommentText;
@@ -112,10 +115,58 @@ function restore_options()
   });
 }
 
+function ResetOptions()
+{
+chrome.storage.sync.set(
+	{
+		genShowOnHover: true,
+		genReplaceTitlesWithText: false,
+		genShowDescriptionsOnHover: true,
+		genReplaceDescriptionsWithText: false,
+		genCommentsShowOnHover: true,
+		genReplaceCommentText: false,
+		
+		dashboardHideShowNames: true,
+		
+		showPageHideDescription: false,
+		showPageEpisodeName: true,
+		showPageHideEpisodeScreenshot: true,
+		
+		episodePageHideShowName: true,
+		episodePageHideShowDescription: true,
+		episodePageHideShowScreenshot: true,
+		
+		seasonPageHideSeasonDescription: true,
+		seasonPageHideEpisodeName: true,
+		seasonPageHideEpsiodeDescription: true,
+		seasonPageHideEpisodeScreenshot: true,
+		
+		calendarHideEpisodeName: true,
+		
+		progressPageHideEpisodeName: true,
+		progressPageHideEpisodeScreenshot: true,
+		
+		moviePageHideTagline: false,
+		moviePageHideDescription: false
+		
+	}, function()
+	{
+		restore_options();
+		
+		// Update status to let user know options were saved.
+		var status = document.getElementById('status');
+		status.textContent = 'Options saved. Please refresh any open Trakt.tv pages for chanegs to take effect.';
+		setTimeout(function() {
+		status.textContent = '';
+    }, 2000);
+  });
+}
+
 function SetupPage()
 {
 	restore_options();
 	document.getElementById("save").addEventListener('click', save_options);
+	document.getElementById("reset").addEventListener('click', ResetOptions);
 	SetOnChangeFunctions();
 }
 
@@ -189,8 +240,39 @@ function ToggleMovieSettings()
 	ToggleClassSettings("movieSetting", movieAll.checked);
 }
 
+function ReplaceNameClicked()
+{
+	document.getElementById("genShowOnHover").checked = false;
+}
+
+function HoverNamesClicked()
+{
+	document.getElementById("genReplaceTitlesWithText").checked = false;
+}
+
+function ReplaceDescriptionClicked()
+{
+	document.getElementById("genShowDescriptionsOnHover").checked = false;
+}
+
+function HoverDescriptionsClicked()
+{
+	document.getElementById("genReplaceDescriptionsWithText").checked = false;
+}
+
+function ReplaceCommentClicked()
+{
+	document.getElementById("genCommentsShowOnHover").checked = false;
+}
+
+function HoverCommentsClicked()
+{
+	document.getElementById("genReplaceCommentText").checked = false;
+}
+
 function SetOnChangeFunctions()
 {
+	//Change all settings
 	var general = document.getElementById("generalAll");
 	general.addEventListener("change", ToggleGeneralSettings);
 	
@@ -214,4 +296,23 @@ function SetOnChangeFunctions()
 	
 	var movie = document.getElementById("movieAll");
 	movie.addEventListener("change", ToggleMovieSettings);
+	
+	//Individual
+	var genReplaceTitlesWithText = document.getElementById("genReplaceTitlesWithText");
+	genReplaceTitlesWithText.addEventListener("click", ReplaceNameClicked);
+	
+	var genShowOnHover = document.getElementById("genShowOnHover");
+	genShowOnHover.addEventListener("click", HoverNamesClicked);
+	
+	var genReplaceDescriptionsWithText = document.getElementById("genReplaceDescriptionsWithText");
+	genReplaceDescriptionsWithText.addEventListener("click", ReplaceDescriptionClicked);
+	
+	var genShowDescriptionsOnHover = document.getElementById("genShowDescriptionsOnHover");
+	genShowDescriptionsOnHover.addEventListener("click", HoverDescriptionsClicked);
+	
+	var genReplaceCommentText = document.getElementById("genReplaceCommentText");
+	genReplaceCommentText.addEventListener("click", ReplaceCommentClicked);
+	
+	var genCommentsShowOnHover = document.getElementById("genCommentsShowOnHover");
+	genCommentsShowOnHover.addEventListener("click", HoverCommentsClicked);
 }
