@@ -26,6 +26,7 @@ function GetSettings()
 	{
 		genShowOnHover: true,
 		genReplaceTitlesWithText: true,
+		genShowDescriptionsOnHover: true,
 		genReplaceDescriptionsWithText: true,
 		genCommentsShowOnHover: true,
 		genReplaceCommentText: true,
@@ -490,10 +491,15 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 		var episodeAndSeason = span.getElementsByClassName("main-title-sxe")[0].innerHTML;
 
 		var episodename = span.innerHTML.split("</span> ")[1];
-
+		
+		//Either an error occurred or we have already spoiler prevented the page.
+		if (episodename === undefined)
+			return;
+		
 		if (span.innerHTML.indexOf("<span class=\"tspNameHover") > -1)
 		{
 			episodename = span.innerHTML.split("<span class=\"tspNameHover\">")[1].split("</span>")[0];
+			
 		}
 
 		//Cleanup the episode name.
@@ -620,7 +626,18 @@ function SpolierPreventWatchingNow()
 	if (watchingNowWrapper === undefined || watchingNowWrapper === null)
 		return;
 	
-	watchingNowWrapper.innerHTML = watchingNowWrapper.innerHTML.replace(episodeTitleInHTMLRegex, "</span></a>");
+	//watchingNowWrapper.innerHTML = watchingNowWrapper.innerHTML.replace(episodeTitleInHTMLRegex, "</span></a>");
+	
+	var header = watchingNowWrapper.getElementsByTagName("h3")[0];
+	var aElement = header.getElementsByTagName("a")[0];
+	
+	$(aElement).css('color', 'transparent');
+	
+	for (var i = 0; i < aElement.childNodes.length; i++)
+	{
+		console.log(i + aElement.childNodes[i].innerHTML);
+		$(aElement.childNodes[i]).css('color', 'white');
+	}
 }
 
 function SpoilerPreventNetworkActivity()

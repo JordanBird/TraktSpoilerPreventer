@@ -19,6 +19,13 @@
 				display: inline-block;
 			}
 			
+			h3
+			{
+				color: #ed1c24;
+				margin-bottom: 2px;
+				margin-left: 2px;
+			}
+			
 			label
 			{
 				color: #333333;
@@ -80,8 +87,6 @@
 			{
 				background-color: white;
 				
-				position: fixed;
-				
 				width: 100%;
 				height: 100%;
 				bottom: 0px;
@@ -92,10 +97,8 @@
 			{
 				/* Trakt red: #ed1c24 */
 				background-color: white;
-				height: calc(100% - 14px);
-				width: calc(100% - 210px);
-				position: fixed;
-				left: 200px;
+				
+				margin-left: 200px;
 				padding-left: 10px;
 				
 				overflow: auto;
@@ -156,18 +159,22 @@
 				<div id="generalSettings">
 					<h2> General Settings </h2> <input type="checkbox" id="generalAll">
 					
+					<h3> Episode Titles </h3>
+					
 					<label>
-						<input type="checkbox" id="genShowOnHover" class="generalSetting">
+						<input type="checkbox" id="genShowOnHover" class="generalSettingMain">
 						Obscure names and reveal on hover.
 					</label>
-					
+
 					<label>
 						<input type="checkbox" id="genReplaceTitlesWithText" class="generalSetting">
 						Replace episode names with 'Spoiler'.
 					</label>
 					
+					<h3> Descriptions </h3>
+					
 					<label>
-						<input type="checkbox" id="genShowDescriptionsOnHover" class="generalSetting">
+						<input type="checkbox" id="genShowDescriptionsOnHover" class="generalSettingMain">
 						Obscure descriptions and reveal on hover.
 					</label>
 					
@@ -176,8 +183,10 @@
 						Replace description with 'Description may contain spoilers'.
 					</label>
 					
+					<h3> Comments </h3>
+					
 					<label>
-						<input type="checkbox" id="genCommentsShowOnHover" class="generalSetting">
+						<input type="checkbox" id="genCommentsShowOnHover" class="generalSettingMain">
 						Obscure comments and reveal on hover.
 					</label>
 					

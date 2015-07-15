@@ -188,7 +188,7 @@ function ToggleGeneralSettings()
 {
 	var generalAll = document.getElementById("generalAll");
 	
-	ToggleClassSettings("generalSetting", generalAll.checked);
+	ToggleClassSettings("generalSettingMain", generalAll.checked);
 }
 
 function ToggleDashboardSettings()
