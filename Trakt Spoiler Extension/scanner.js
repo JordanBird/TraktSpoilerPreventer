@@ -241,15 +241,20 @@ function PreventSpoilersEpisodePage()
 			{
 				//Prevent spoilers from images on main page.			
 				var wrapper = document.getElementById("summary-wrapper");
-				var fanart = document.getElementsByClassName('col-md-4 action-buttons')[0].getElementsByClassName('btn')[0].getAttribute("data-fanart");
+				var fanart = "http://trakt.tv/assets/placeholders/medium/fanart-c817bbe32ebad36ffb460f7feb920de1.png";
 				
+				try
+				{
+					fanart = wrapper.style.backgroundImage.replace("url(", "").replace(")", "");
+				} catch(e) { }
+
 				//If we've made a pass before, delete the previous one ready for our next rule. //TODO: Check if we can just overwrite.
 				if (currentBackgroundCSSRule != null)
 					currentBackgroundCSSRule.remove();
 					
 				//Check if fanart exists, if not use a placeholder.
 				if (fanart == "")
-					fanart = "http://trakt.tv/assets/placeholders/medium/fanart-0bb68bf682289cd3c69f3b81e9b7378b.png";
+					fanart = "http://trakt.tv/assets/placeholders/medium/fanart-c817bbe32ebad36ffb460f7feb920de1.png";
 				
 				//Create the style and add it to the head.
 				currentBackgroundCSSRule = $('<style>.tspEpisodePageScreenshot{background-image: url(' + fanart + ') !important;}</style>');
