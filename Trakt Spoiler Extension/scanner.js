@@ -137,6 +137,10 @@ function PreventSpoilersDashboard()
 	
 	try
 	{
+		//Spoiler prevent the on deck to watch section. Added 17/07/2015.
+		GetHeaderAndApplyCustomDiv("h3", "Dashboard");
+		
+		//Spoiler prevent the upcoming schedule.
 		GetHeaderAndApplyCustomDiv("h5", "Dashboard");
 	}
 	catch (e)

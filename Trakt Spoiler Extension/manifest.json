@@ -4,7 +4,7 @@
 	"name": "Trakt Spoiler Preventer",
 	"short_name": "Trakt SP",
 	"description": "Trakt.tv but without the spoilers. Titles, screenshots and comments are all able to be obscured by this extension.",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	
 	"author": "Jordan Bird",
 	
