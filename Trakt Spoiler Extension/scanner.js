@@ -138,8 +138,16 @@ function PreventSpoilersDashboard()
 	try
 	{
 		//Spoiler prevent the on deck to watch section. Added 17/07/2015.
-		GetHeaderAndApplyCustomDiv("h3", "Dashboard");
+		//GetHeaderAndApplyCustomDiv("h3", "Dashboard");
 		
+		var onDeck = document.getElementById("ondeck-wrapper");
+		var onDeckHeaders = onDeck.getElementsByTagName("h3");
+		
+		for (var i = 0; i < onDeckHeaders.length; i++)
+		{
+			ReplaceEpisodeTitleWithCustomDiv(onDeckHeaders[i], "Dashboard");
+		}
+
 		//Spoiler prevent the upcoming schedule.
 		GetHeaderAndApplyCustomDiv("h5", "Dashboard");
 	}
@@ -644,7 +652,6 @@ function SpolierPreventWatchingNow()
 	
 	for (var i = 0; i < aElement.childNodes.length; i++)
 	{
-		console.log(i + aElement.childNodes[i].innerHTML);
 		$(aElement.childNodes[i]).css('color', 'white');
 	}
 }
