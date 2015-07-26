@@ -26,6 +26,17 @@
 {
 	display:inline-block;
 	width: 200px;
+	text-align: left;
+}
+
+.buttonText
+{
+	padding-left: 20px;
+}
+
+#goToLastCheckIn
+{
+	display: none;
 }
 
 .searchButton
@@ -57,16 +68,29 @@
 	<h2 id="welcomeMessage"></h2>
 	
 	<button id="goToTrakt" class="navigationButton">
-		<img  src="icon16.png" align="left" vertical-align: middle> Go to Trakt.TV
+		<img  src="icon16.png" align="left" vertical-align: middle>
+		<span class="buttonText"> Go to Dashboard </span>
+	</button>
+	<button id="goToCalendar" class="navigationButton">
+		<img  src="icon16.png" align="left" vertical-align: middle>
+		<span class="buttonText"> Go to Calendar </span>
 	</button>
 	<button id="goToTraktProfile" class="navigationButton">
-		<img  src="icon16.png" align="left" vertical-align: middle> Go to Profile Page
+		<img  src="icon16.png" align="left" vertical-align: middle>
+		<span class="buttonText"> Go to Profile Page </span>
 	</button>
 	<button id="goToTraktProgress" class="navigationButton">
-		<img  src="icon16.png" align="left" vertical-align: middle> Go to Progress Page
+		<img  src="icon16.png" align="left" vertical-align: middle>
+		<span class="buttonText"> Go to Progress Page </span>
 	</button>
 	<button id="goToTraktWatchlist" class="navigationButton">
-		<img  src="icon16.png" align="left" vertical-align: middle> Go to Watchlist
+		<img  src="icon16.png" align="left" vertical-align: middle>
+		<span class="buttonText"> Go to Watchlist </span>
+	</button>
+	
+	<button id="goToLastCheckIn" class="navigationButton">
+		<img  src="icon16.png" align="left" vertical-align: middle>
+		<span class="buttonText"> Go to Last Check In </span>
 	</button>
 	
 	<div class="filler"></div>
@@ -79,7 +103,8 @@
 	
 	<div class="filler"></div>
 	<button id="btnOptions" class="navigationButton">
-		<img  src="options.png" align="left" width="16px" vertical-align: middle> Options
+		<img  src="options.png" align="left" width="16px" vertical-align: middle>
+		<span class="buttonText"> Options </span>
 	</button>
   </body>
 </html>

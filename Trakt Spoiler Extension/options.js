@@ -33,7 +33,14 @@ function save_options()
 		progressPageHideEpisodeScreenshot: document.getElementById('progressPageHideEpisodeScreenshot').checked,
 		
 		moviePageHideTagline: document.getElementById('moviePageHideTagline').checked,
-		moviePageHideDescription: document.getElementById('moviePageHideDescription').checked
+		moviePageHideDescription: document.getElementById('moviePageHideDescription').checked,
+		
+		popGoToDashboard: document.getElementById('popGoToDashboard').checked,
+		popGoToCalendar: document.getElementById('popGoToCalendar').checked,
+		popGoToProfilePage: document.getElementById('popGoToProfilePage').checked,
+		popGoToProgressPage: document.getElementById('popGoToProgressPage').checked,
+		popGoToWatchlist: document.getElementById('popGoToWatchlist').checked,
+		popGoToLastCheckIn: document.getElementById('popGoToLastCheckIn').checked,
 		
 	}, function()
 	{
@@ -80,7 +87,15 @@ function restore_options()
 		progressPageHideEpisodeScreenshot: true,
 		
 		moviePageHideTagline: false,
-		moviePageHideDescription: false
+		moviePageHideDescription: false,
+		
+		popGoToDashboard: true,
+		popGoToCalendar: true,
+		popGoToProfilePage: true,
+		popGoToProgressPage: true,
+		popGoToWatchlist: true,
+		popGoToLastCheckIn: true
+		
 	}, function(items)
 	{
 		document.getElementById('genShowOnHover').checked = items.genShowOnHover;
@@ -112,6 +127,13 @@ function restore_options()
 		
 		document.getElementById('moviePageHideTagline').checked = items.moviePageHideTagline;
 		document.getElementById('moviePageHideDescription').checked = items.moviePageHideDescription;
+		
+		document.getElementById('popGoToDashboard').checked = items.popGoToDashboard;
+		document.getElementById('popGoToCalendar').checked = items.popGoToCalendar;
+		document.getElementById('popGoToProfilePage').checked = items.popGoToProfilePage;
+		document.getElementById('popGoToProgressPage').checked = items.popGoToProgressPage;
+		document.getElementById('popGoToWatchlist').checked = items.popGoToWatchlist;
+		document.getElementById('popGoToLastCheckIn').checked = items.popGoToLastCheckIn;
   });
 }
 
@@ -147,7 +169,14 @@ chrome.storage.sync.set(
 		progressPageHideEpisodeScreenshot: true,
 		
 		moviePageHideTagline: false,
-		moviePageHideDescription: false
+		moviePageHideDescription: false,
+		
+		popGoToDashboard: true,
+		popGoToCalendar: true,
+		popGoToProfilePage: true,
+		popGoToProgressPage: true,
+		popGoToWatchlist: true,
+		popGoToLastCheckIn: true
 		
 	}, function()
 	{
@@ -240,6 +269,13 @@ function ToggleMovieSettings()
 	ToggleClassSettings("movieSetting", movieAll.checked);
 }
 
+function TogglePopupSettings()
+{
+	var movieAll = document.getElementById("popupAll");
+	
+	ToggleClassSettings("popupSetting", movieAll.checked);
+}
+
 function ReplaceNameClicked()
 {
 	document.getElementById("genShowOnHover").checked = false;
@@ -296,6 +332,9 @@ function SetOnChangeFunctions()
 	
 	var movie = document.getElementById("movieAll");
 	movie.addEventListener("change", ToggleMovieSettings);
+	
+	var popup = document.getElementById("popupAll");
+	popup.addEventListener("change", TogglePopupSettings);
 	
 	//Individual
 	var genReplaceTitlesWithText = document.getElementById("genReplaceTitlesWithText");

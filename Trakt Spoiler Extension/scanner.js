@@ -105,7 +105,10 @@ function SpoilerPrevent()
 		PreventSpoilersShowPage();
 	
 	if (currentWebURL.match(regEpisodePage))
+	{
 		PreventSpoilersEpisodePage();
+		SetupCheckEventClickForLastCheckItem();
+	}
 	
 	if (currentWebURL.match(regSeasonPage))
 		PreventSpoilersSeasonPage();
@@ -118,7 +121,10 @@ function SpoilerPrevent()
 	
 	//Spoiler prevent movie if currently active.
 	if (currentWebURL.match(regMoviePage))
+	{
 		PreventSpoilersMoviePage();
+		SetupCheckEventClickForLastCheckItem();
+	}
 	
 	//Prevent any toast message name spoilers if present.
 	SpoilerPreventToastMessage();
@@ -687,4 +693,23 @@ function SpoilerPreventComments()
 			comments[i].className = "tspCommentHover";
 		}
 	}
+}
+
+function SetupCheckEventClickForLastCheckItem()
+{
+	var button = document.getElementById("checkin-submit");
+	
+	if (button === null || button === undefined)
+		return;
+	
+	button.addEventListener('click', function() { SetLastCheckedInItem(document.URL); });
+}
+
+function SetLastCheckedInItem(url)
+{
+	chrome.storage.sync.set(
+	{
+		dataLastCheckedInItem: url
+	}, function()
+	{});
 }
