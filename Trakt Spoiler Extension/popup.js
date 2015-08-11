@@ -1,5 +1,6 @@
 var userName = "";
 var lastCheckedInItem = "";
+var nextEpisode = "";
 
 var settings;
 
@@ -20,6 +21,7 @@ function PopulatePage()
 	var goToWatchlistButton = document.getElementById('goToTraktWatchlist');
 	
 	var goToLastCheckInButton = document.getElementById('goToLastCheckIn');
+	var goToNextEpisodeButton = document.getElementById('goToNextEpisode');
 	
 	var btnOptions = document.getElementById('btnOptions');
 	
@@ -67,7 +69,17 @@ function PopulatePage()
 		
 		goToLastCheckInButton.style.display = 'inherit';
 	}
-
+	
+	if (nextEpisode != "")
+	{
+		goToNextEpisodeButton.addEventListener('click', function()
+		{
+			NavigateToNextEpisode();
+		}, false);
+		
+		goToNextEpisodeButton.style.display = 'inherit';
+	}
+	
 	btnOptions.addEventListener('click', function()
 	{
 			NavigateToOptions();
@@ -113,6 +125,11 @@ function NavigateToLastCheckIn()
 	window.open(lastCheckedInItem);
 }
 
+function NavigateToNextEpisode()
+{
+	window.open(nextEpisode);
+}
+
 function NavigateToOptions()
 {
 	chrome.tabs.create({'url': "/options.html" } );
@@ -132,6 +149,7 @@ function EnableOrDisableButtonsBasedOnUserOptions()
 	var popGoToProgressPage = document.getElementById("goToTraktProgress");
 	var popGoToWatchlist = document.getElementById("goToTraktWatchlist");
 	var popGoToLastCheckIn = document.getElementById("goToLastCheckIn");
+	var popGoToNextEpisode = document.getElementById("goToNextEpisode");
 	
 	if (!settings.popGoToDashboard)
 		popGoToDashboard.style.display = 'none';
@@ -150,6 +168,9 @@ function EnableOrDisableButtonsBasedOnUserOptions()
 		
 	if (!settings.popGoToLastCheckIn)
 		popGoToLastCheckIn.style.display = 'none';
+		
+	if (!settings.popGoToNextEpisode)
+		popGoToNextEpisode.style.display = 'none';
 }
 
 function GetSettings()
@@ -158,17 +179,20 @@ function GetSettings()
 	{
 		userName: "",
 		dataLastCheckedInItem: "",
+		dataNextEpisodeItem: "",
 		
 		popGoToDashboard: true,
 		popGoToCalendar: true,
 		popGoToProfilePage: true,
 		popGoToProgressPage: true,
 		popGoToWatchlist: true,
-		popGoToLastCheckIn: true
+		popGoToLastCheckIn: true,
+		popGoToNextEpisode: true
 	}, function(items)
 	{
 		userName = items.userName;
 		lastCheckedInItem = items.dataLastCheckedInItem;
+		nextEpisode = items.dataNextEpisodeItem;
 		settings = items;
 		
 		//Tell page to finish building.

@@ -41,6 +41,7 @@ function save_options()
 		popGoToProgressPage: document.getElementById('popGoToProgressPage').checked,
 		popGoToWatchlist: document.getElementById('popGoToWatchlist').checked,
 		popGoToLastCheckIn: document.getElementById('popGoToLastCheckIn').checked,
+		popGoToNextEpisode: document.getElementById('popGoToNextEpisode').checked,
 		
 	}, function()
 	{
@@ -94,7 +95,8 @@ function restore_options()
 		popGoToProfilePage: true,
 		popGoToProgressPage: true,
 		popGoToWatchlist: true,
-		popGoToLastCheckIn: true
+		popGoToLastCheckIn: true,
+		popGoToNextEpisode: true
 		
 	}, function(items)
 	{
@@ -134,6 +136,7 @@ function restore_options()
 		document.getElementById('popGoToProgressPage').checked = items.popGoToProgressPage;
 		document.getElementById('popGoToWatchlist').checked = items.popGoToWatchlist;
 		document.getElementById('popGoToLastCheckIn').checked = items.popGoToLastCheckIn;
+		document.getElementById('popGoToNextEpisode').checked = items.popGoToNextEpisode;
   });
 }
 
@@ -176,8 +179,8 @@ chrome.storage.sync.set(
 		popGoToProfilePage: true,
 		popGoToProgressPage: true,
 		popGoToWatchlist: true,
-		popGoToLastCheckIn: true
-		
+		popGoToLastCheckIn: true,
+		popGoToNextEpisode: true
 	}, function()
 	{
 		restore_options();

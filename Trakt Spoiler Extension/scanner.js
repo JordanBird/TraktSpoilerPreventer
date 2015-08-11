@@ -712,4 +712,32 @@ function SetLastCheckedInItem(url)
 		dataLastCheckedInItem: url
 	}, function()
 	{});
+	
+	FindNextEpisode(url);
+}
+
+function FindNextEpisode(lastCheckedInItem)
+{
+	var season = parseInt(lastCheckedInItem.split("/seasons/")[1].split("/")[0]);
+	var episode = parseInt(lastCheckedInItem.split("/episodes/")[1]);
+	
+	var newURL = lastCheckedInItem.split('/seasons/')[0] + '/seasons/' + season + '/episodes/' + (episode + 1);
+	
+	$.ajax({ url: newURL, success: function(data) { FindEpisodeSuccess(newURL); }, error: function(data) { FindEpisodeFailure(lastCheckedInItem.split('/seasons/')[0], season, episode); } });
+}
+
+function FindEpisodeSuccess(url)
+{
+	chrome.storage.sync.set(
+	{
+		dataNextEpisodeItem: url
+	}, function()
+	{});
+}
+
+function FindEpisodeFailure(showURLPart, season, episode)
+{
+	var newURL = showURLPart  + '/seasons/' + (season + 1) + '/episodes/' + 1;
+	
+	$.ajax({ url: newURL, success: function(data) { FindEpisodeSuccess(newURL); } });
 }
