@@ -1,6 +1,13 @@
 <!doctype html>
 <style>
 
+h3
+{
+	text-align: left;
+	padding: 0;
+	margin: 0;
+}
+
 #header
 {
 	width: 200px;
@@ -64,6 +71,12 @@
 	padding-top: 5px;
 }
 
+#txtSearch
+{
+	height: 28px;
+    width: calc(100% - 43px);
+}
+
 .filler
 {
 	padding-top: 15px;
@@ -86,44 +99,48 @@
 	</header>
 
 	<h2 id="welcomeMessage"></h2>
-	
+
+	<h3> Go To: </h3>
+
 	<button id="goToTrakt" class="navigationButton">
 		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
-		<span class="buttonText"> Go to Dashboard </span>
+		<span class="buttonText"> Dashboard </span>
 	</button>
 	<button id="goToCalendar" class="navigationButton">
 		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
-		<span class="buttonText"> Go to Calendar </span>
+		<span class="buttonText"> Calendar </span>
 	</button>
 	<button id="goToTraktProfile" class="navigationButton">
 		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
-		<span class="buttonText"> Go to Profile Page </span>
+		<span class="buttonText"> Profile Page </span>
 	</button>
 	<button id="goToTraktProgress" class="navigationButton">
 		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
-		<span class="buttonText"> Go to Progress Page </span>
+		<span class="buttonText"> Progress Page </span>
 	</button>
 	<button id="goToTraktWatchlist" class="navigationButton">
 		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
-		<span class="buttonText"> Go to Watchlist </span>
+		<span class="buttonText"> Watchlist </span>
 	</button>
 	
 	<button id="goToLastCheckIn" class="navigationButton">
 		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
-		<span class="buttonText"> Go to Last Check In </span>
+		<span class="buttonText"> Last Check In </span>
 	</button>
 	
 	<button id="goToNextEpisode" class="navigationButton">
 		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
-		<span title="Go to next episode of last checked in item." class="buttonText"> Go to Next Episode </span>
+		<span title="Go to next episode of last checked in item." class="buttonText"> Next Episode </span>
 	</button>
 	
 	<div class="filler"></div>
 	
+	<h3> Search: </h3>
+	
 	<form id="frmSearch">
-		Search Trakt: <input type="text" id="txtSearch" size="13">
+		<input type="image" src="search-icon.jpg" alt="Submit" align="left" vertical-align: middle>
+		<input type="text" id="txtSearch" size="13">
 		<div class="filler5px"></div>
-		<input type="submit" value="Search" id="inputSearch">
 	</form>
 	
 	<div class="filler"></div>
