@@ -11,6 +11,9 @@ var regSeasonPage = /trakt.tv\/shows\/.+\/seasons\/\d+$/;
 
 var regMoviePage = /trakt.tv\/movies\/.+/;
 
+var regUserProfile = /trakt.tv\/users\/.+$/;
+var regUserHistory = /trakt.tv\/users\/.+\/history/;
+
 // CSS Rule for Screenshots
 var currentBackgroundCSSRule;
 
@@ -52,7 +55,14 @@ function GetSettings()
 		progressPageHideEpisodeScreenshot: true,
 		
 		moviePageHideTagline: false,
-		moviePageHideDescription: false
+		moviePageHideDescription: false,
+		
+		userProfileHideEpisodeName: true,
+		userProfileHideEpisodeScreenshot: true,
+		
+		userHistoryHideEpisodeName: true,
+		
+		userName: ""
 	}, function(items)
 	{
 		settings = items;
@@ -125,6 +135,14 @@ function SpoilerPrevent()
 		PreventSpoilersMoviePage();
 		SetupCheckEventClickForLastCheckItem();
 	}
+	
+	//Spoiler prevent other user profiles history if currently active.
+	if (currentWebURL.match(regUserProfile))
+		SpoilerPreventUserProfile();
+	
+	//Spoiler prevent other user profiles history if currently active.
+	if (currentWebURL.match(regUserHistory))
+		SpoilerPreventUserHistory();
 	
 	//Prevent any toast message name spoilers if present.
 	SpoilerPreventToastMessage();
@@ -502,6 +520,44 @@ function PreventSpoilersMoviePage()
 	SpoilerPreventComments();
 }
 
+function SpoilerPreventUserProfile()
+{
+	if (window.location.href.split("trakt.tv/users/")[1].toUpperCase() == settings.userName.toUpperCase())
+		return;
+	
+	if (settings.userProfileHideEpisodeName)
+	{
+		GetHeaderAndApplyCustomDiv("h3", "Dashboard");
+		GetHeaderAndApplyCustomDiv("h4", "Dashboard");
+	}
+	
+	if (settings.userProfileHideEpisodeScreenshot)
+	{
+		var showScreens = document.getElementsByClassName("poster screenshot");
+		
+		for (var i = 0; i < showScreens.length; i++)
+		{
+			var reals = showScreens[i].getElementsByClassName("real");
+			
+			for (var j = 0; j < reals.length; j++)
+			{
+				reals[j].remove();
+			}
+		}
+	}
+}
+
+function SpoilerPreventUserHistory()
+{
+	if (window.location.href.split("trakt.tv/users/")[1].split("/")[0].toUpperCase() == settings.userName.toUpperCase())
+		return;
+	
+	if (settings.userHistoryHideEpisodeName)
+	{
+		GetHeaderAndApplyCustomDiv("h3", "Dashboard");
+	}
+}
+
 function CheckIfPageIsEpisodePage()
 {
 	return document.getElementsByClassName("btn btn-block btn-summary btn-watch").length == 0;
@@ -522,7 +578,6 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 		if (span.innerHTML.indexOf("<span class=\"tspNameHover") > -1)
 		{
 			episodename = span.innerHTML.split("<span class=\"tspNameHover\">")[1].split("</span>")[0];
-			
 		}
 
 		//Cleanup the episode name.
