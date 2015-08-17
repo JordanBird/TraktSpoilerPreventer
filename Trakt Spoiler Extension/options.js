@@ -35,6 +35,10 @@ function save_options()
 		moviePageHideTagline: document.getElementById('moviePageHideTagline').checked,
 		moviePageHideDescription: document.getElementById('moviePageHideDescription').checked,
 		
+		profileHideEpisodeName: document.getElementById('profileHideEpisodeName').checked,
+		profileHideEpisodeScreenshot: document.getElementById('profileHideEpisodeScreenshot').checked,
+		profileHistoryHideEpisodeName: document.getElementById('profileHistoryHideEpisodeName').checked,
+		
 		popGoToDashboard: document.getElementById('popGoToDashboard').checked,
 		popGoToCalendar: document.getElementById('popGoToCalendar').checked,
 		popGoToProfilePage: document.getElementById('popGoToProfilePage').checked,
@@ -90,6 +94,10 @@ function restore_options()
 		moviePageHideTagline: false,
 		moviePageHideDescription: false,
 		
+		profileHideEpisodeName: true,
+		profileHideEpisodeScreenshot: true,
+		profileHistoryHideEpisodeName: true,
+		
 		popGoToDashboard: true,
 		popGoToCalendar: true,
 		popGoToProfilePage: true,
@@ -130,6 +138,10 @@ function restore_options()
 		document.getElementById('moviePageHideTagline').checked = items.moviePageHideTagline;
 		document.getElementById('moviePageHideDescription').checked = items.moviePageHideDescription;
 		
+		document.getElementById('profileHideEpisodeName').checked = items.profileHideEpisodeName;
+		document.getElementById('profileHideEpisodeScreenshot').checked =  items.profileHideEpisodeScreenshot;
+		document.getElementById('profileHistoryHideEpisodeName').checked =  items.profileHistoryHideEpisodeName;
+		
 		document.getElementById('popGoToDashboard').checked = items.popGoToDashboard;
 		document.getElementById('popGoToCalendar').checked = items.popGoToCalendar;
 		document.getElementById('popGoToProfilePage').checked = items.popGoToProfilePage;
@@ -142,7 +154,7 @@ function restore_options()
 
 function ResetOptions()
 {
-chrome.storage.sync.set(
+	chrome.storage.sync.set(
 	{
 		genShowOnHover: true,
 		genReplaceTitlesWithText: false,
@@ -173,6 +185,10 @@ chrome.storage.sync.set(
 		
 		moviePageHideTagline: false,
 		moviePageHideDescription: false,
+		
+		profileHideEpisodeName: true,
+		profileHideEpisodeScreenshot: true,
+		profileHistoryHideEpisodeName: true,
 		
 		popGoToDashboard: true,
 		popGoToCalendar: true,
@@ -272,6 +288,13 @@ function ToggleMovieSettings()
 	ToggleClassSettings("movieSetting", movieAll.checked);
 }
 
+function ToggleProfileSettings()
+{
+	var profileAll = document.getElementById("profileAll");
+	
+	ToggleClassSettings("profileSetting", profileAll.checked);
+}
+
 function TogglePopupSettings()
 {
 	var movieAll = document.getElementById("popupAll");
@@ -335,6 +358,9 @@ function SetOnChangeFunctions()
 	
 	var movie = document.getElementById("movieAll");
 	movie.addEventListener("change", ToggleMovieSettings);
+	
+	var profile = document.getElementById("profileAll");
+	profile.addEventListener("change", ToggleProfileSettings);
 	
 	var popup = document.getElementById("popupAll");
 	popup.addEventListener("change", TogglePopupSettings);
