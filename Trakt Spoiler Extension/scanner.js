@@ -11,6 +11,9 @@ var regSeasonPage = /trakt.tv\/shows\/.+\/seasons\/\d+$/;
 
 var regMoviePage = /trakt.tv\/movies\/.+/;
 
+var regUserProfile = /trakt.tv\/users\/.+$/;
+var regUserHistory = /trakt.tv\/users\/.+\/history/;
+
 // CSS Rule for Screenshots
 var currentBackgroundCSSRule;
 
@@ -52,7 +55,14 @@ function GetSettings()
 		progressPageHideEpisodeScreenshot: true,
 		
 		moviePageHideTagline: false,
-		moviePageHideDescription: false
+		moviePageHideDescription: false,
+		
+		profileHideEpisodeName: true,
+		profileHideEpisodeScreenshot: true,
+		
+		profileHistoryHideEpisodeName: true,
+		
+		userName: ""
 	}, function(items)
 	{
 		settings = items;
@@ -105,7 +115,10 @@ function SpoilerPrevent()
 		PreventSpoilersShowPage();
 	
 	if (currentWebURL.match(regEpisodePage))
+	{
 		PreventSpoilersEpisodePage();
+		SetupCheckEventClickForLastCheckItem();
+	}
 	
 	if (currentWebURL.match(regSeasonPage))
 		PreventSpoilersSeasonPage();
@@ -118,7 +131,18 @@ function SpoilerPrevent()
 	
 	//Spoiler prevent movie if currently active.
 	if (currentWebURL.match(regMoviePage))
+	{
 		PreventSpoilersMoviePage();
+		SetupCheckEventClickForLastCheckItem();
+	}
+	
+	//Spoiler prevent other user profiles history if currently active.
+	if (currentWebURL.match(regUserProfile))
+		SpoilerPreventUserProfile();
+	
+	//Spoiler prevent other user profiles history if currently active.
+	if (currentWebURL.match(regUserHistory))
+		SpoilerPreventUserHistory();
 	
 	//Prevent any toast message name spoilers if present.
 	SpoilerPreventToastMessage();
@@ -487,6 +511,8 @@ function PreventSpoilersProgressPage()
 
 function PreventSpoilersMoviePage()
 {
+	console.log("Attempting to spoiler prevent Movie Page.");
+	
 	if (settings.moviePageHideTagline)
 		SpoilerPreventTagline();
 	
@@ -494,6 +520,51 @@ function PreventSpoilersMoviePage()
 		SpoilerPreventDescription();
 	
 	SpoilerPreventComments();
+}
+
+function SpoilerPreventUserProfile()
+{
+	console.log("Attempting to spoiler prevent User Profile.");
+	
+	if (window.location.href.split("trakt.tv/users/")[1].toUpperCase() == settings.userName.toUpperCase())
+		return;
+	
+	if (settings.profileHideEpisodeName)
+	{
+		GetHeaderAndApplyCustomDiv("h3", "Dashboard");
+		GetHeaderAndApplyCustomDiv("h4", "Dashboard");
+	}
+	
+	if (settings.profileHideEpisodeScreenshot)
+	{
+		var showScreens = document.getElementsByClassName("poster screenshot");
+		
+		for (var i = 0; i < showScreens.length; i++)
+		{
+			var reals = showScreens[i].getElementsByClassName("real");
+			
+			for (var j = 0; j < reals.length; j++)
+			{
+				reals[j].remove();
+			}
+		}
+	}
+}
+
+function SpoilerPreventUserHistory()
+{
+	console.log("Attempting to spoiler prevent User History.");
+	
+	if (!settings.profileHistoryHideEpisodeName)
+		return;
+	
+	if (window.location.href.split("trakt.tv/users/")[1].split("/")[0].toUpperCase() == settings.userName.toUpperCase())
+		return;
+	
+	if (settings.userHistoryHideEpisodeName)
+	{
+		GetHeaderAndApplyCustomDiv("h3", "Dashboard");
+	}
 }
 
 function CheckIfPageIsEpisodePage()
@@ -516,7 +587,6 @@ function ReplaceEpisodeTitleWithCustomDiv(span, page)
 		if (span.innerHTML.indexOf("<span class=\"tspNameHover") > -1)
 		{
 			episodename = span.innerHTML.split("<span class=\"tspNameHover\">")[1].split("</span>")[0];
-			
 		}
 
 		//Cleanup the episode name.
@@ -687,4 +757,51 @@ function SpoilerPreventComments()
 			comments[i].className = "tspCommentHover";
 		}
 	}
+}
+
+function SetupCheckEventClickForLastCheckItem()
+{
+	var button = document.getElementById("checkin-submit");
+	
+	if (button === null || button === undefined)
+		return;
+	
+	button.addEventListener('click', function() { SetLastCheckedInItem(document.URL); });
+}
+
+function SetLastCheckedInItem(url)
+{
+	chrome.storage.sync.set(
+	{
+		dataLastCheckedInItem: url
+	}, function()
+	{});
+	
+	FindNextEpisode(url);
+}
+
+function FindNextEpisode(lastCheckedInItem)
+{
+	var season = parseInt(lastCheckedInItem.split("/seasons/")[1].split("/")[0]);
+	var episode = parseInt(lastCheckedInItem.split("/episodes/")[1]);
+	
+	var newURL = lastCheckedInItem.split('/seasons/')[0] + '/seasons/' + season + '/episodes/' + (episode + 1);
+	
+	$.ajax({ url: newURL, success: function(data) { FindEpisodeSuccess(newURL); }, error: function(data) { FindEpisodeFailure(lastCheckedInItem.split('/seasons/')[0], season, episode); } });
+}
+
+function FindEpisodeSuccess(url)
+{
+	chrome.storage.sync.set(
+	{
+		dataNextEpisodeItem: url
+	}, function()
+	{});
+}
+
+function FindEpisodeFailure(showURLPart, season, episode)
+{
+	var newURL = showURLPart  + '/seasons/' + (season + 1) + '/episodes/' + 1;
+	
+	$.ajax({ url: newURL, success: function(data) { FindEpisodeSuccess(newURL); } });
 }

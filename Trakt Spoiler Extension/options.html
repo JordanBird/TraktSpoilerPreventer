@@ -5,18 +5,22 @@
 		<title>Trakt Spoiler Preventer Options</title>
 		
 		<style>
-			body
+			html, body
 			{
 				margin: 0px;
 				padding: 0px;
 				color: white;
 				font-family: "Varela Round", "Helvetica Neue", Helvetica, Arial, sans-serif;
+				height: 100%;
 			}
 
 			h2
 			{
 				color: #ed1c24;
 				display: inline-block;
+				
+				margin-bottom: 0;
+				margin-top: 20px;
 			}
 			
 			h3
@@ -101,7 +105,7 @@
 				margin-left: 200px;
 				padding-left: 10px;
 				
-				overflow: auto;
+				height: 100%;
 			}
 			
 			#header
@@ -113,6 +117,30 @@
 				background-color: rgba(0, 0, 0, 0.6);
 				
 				text-align: center;
+			}
+			
+			.traktSettings
+			{
+				float: left;
+				position: relative;
+				width: auto;
+			}
+			
+			.extensionSettings
+			{
+				float: left;
+				position: relative;
+				width: auto;
+			}
+			
+			.columnSplit
+			{
+				float: left;
+				position: relative;
+				width: 3px;
+				height: 100%;
+				margin: 15px;
+				border-left: 3px solid rgba(0, 0, 0, 0.1);
 			}
 			
 			#status
@@ -129,6 +157,8 @@
 			.filler
 			{
 				padding: 15px;
+				position: relative;
+				float: left;
 			}
 		</style>
 	</head>
@@ -153,161 +183,227 @@
 						<p> Created by <a href="http://www.jordanbird.co.uk">Jordan Bird</a></p>
 					</div>
 				</div>
-				
-				
-				
-				<div id="generalSettings">
-					<h2> General Settings </h2> <input type="checkbox" id="generalAll">
+
+				<div class="traktSettings">
+					<div id="generalSettings">
+						<h2> General Settings </h2> <input type="checkbox" id="generalAll">
+						
+						<h3> Episode Titles </h3>
+						
+						<label>
+							<input type="checkbox" id="genShowOnHover" class="generalSettingMain">
+							Obscure names and reveal on hover.
+						</label>
+	
+						<label>
+							<input type="checkbox" id="genReplaceTitlesWithText" class="generalSetting">
+							Replace episode names with 'Spoiler'.
+						</label>
+						
+						<h3> Descriptions </h3>
+						
+						<label>
+							<input type="checkbox" id="genShowDescriptionsOnHover" class="generalSettingMain">
+							Obscure descriptions and reveal on hover.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="genReplaceDescriptionsWithText" class="generalSetting">
+							Replace description with 'Description may contain spoilers'.
+						</label>
+						
+						<h3> Comments </h3>
+						
+						<label>
+							<input type="checkbox" id="genCommentsShowOnHover" class="generalSettingMain">
+							Obscure comments and reveal on hover.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="genReplaceCommentText" class="generalSetting">
+							Replace comment with 'Comment may contain spoilers'.
+						</label>
+					</div>
 					
-					<h3> Episode Titles </h3>
+					<div id="dashboardSettings">
+						<h2> Dashboard Settings </h2> <input type="checkbox" id="dashboardAll">
+						
+						<label>
+							<input type="checkbox" id="dashboardHideShowNames" class="dashboardSetting">
+							Hide episode names.
+						</label>
+					</div>
+					
+					<div id="showPageSettings">
+						<h2> Show Page Settings </h2> <input type="checkbox" id="showPageAll">
+						
+						<label>
+							<input type="checkbox" id="showPageHideDescription" class="showPageSetting">
+							Hide show description.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="showPageEpisodeName" class="showPageSetting">
+							Hide episode names on recent episodes.
+						</label>
+	
+						<label>
+							<input type="checkbox" id="showPageHideEpisodeScreenshot" class="showPageSetting">
+							Hide episode screenshots on recent episodes.
+						</label>
+					</div>
+					
+					<div id="episodePageSettings">
+						<h2> Episode Page Settings </h2> <input type="checkbox" id="episodePageAll">
+						
+						<label>
+							<input type="checkbox" id="episodePageHideShowName" class="episodePageSetting">
+							Hide episode name.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="episodePageHideShowDescription" class="episodePageSetting">
+							Hide episode description.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="episodePageHideShowScreenshot" class="episodePageSetting">
+							Hide episode screenshot.
+						</label>
+					</div>
+					
+					<div id="seasonPageSettings">
+						<h2> Season Page Settings </h2> <input type="checkbox" id="seasonPageAll">
+						
+						<label>
+							<input type="checkbox" id="seasonPageHideSeasonDescription" class="seasonPageSetting">
+							Hide season description.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="seasonPageHideEpisodeName" class="seasonPageSetting">
+							Hide names of unwatched episodes in the season.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="seasonPageHideEpsiodeDescription" class="seasonPageSetting">
+							Hide descriptions of unwatched episodes in the season.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="seasonPageHideEpisodeScreenshot" class="seasonPageSetting">
+							Hide screenshots of unwatched episodes in the season.
+						</label>
+					</div>
+					
+					<div id="calendarSettings">
+						<h2> Calendar Settings </h2> <input type="checkbox" id="calendarAll">
+						
+						<label>
+							<input type="checkbox" id="calendarHideEpisodeName" class="calendarSetting">
+							Hide episode names.
+						</label>
+					</div>
+					
+					<div id="progressPageSettings">
+						<h2> Progress Page Settings </h2> <input type="checkbox" id="progressPageAll">
+						
+						<label>
+							<input type="checkbox" id="progressPageHideEpisodeName" class="progressPageSetting">
+							Hide episode names.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="progressPageHideEpisodeScreenshot" class="progressPageSetting">
+							Hide episode screenshots.
+						</label>
+					</div>
+					
+					<div id="movieSettings">
+						<h2> Movie Settings </h2> <input type="checkbox" id="movieAll">
+						
+						<label>
+							<input type="checkbox" id="moviePageHideTagline" class="movieSetting">
+							Hide movie tagline.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="moviePageHideDescription" class="movieSetting">
+							Hide movie description.
+						</label>
+					</div>
+					
+					<div id="profileSettings">
+						<h2> Profile Settings </h2> <input type="checkbox" id="profileAll">
+						
+						<h3> Profile </h3>
+						
+						<label>
+							<input type="checkbox" id="profileHideEpisodeName" class="profileSetting">
+							Hide episode names.
+						</label>
+						
+						<label>
+							<input type="checkbox" id="profileHideEpisodeScreenshot" class="profileSetting">
+							Hide episode screenshots.
+						</label>
+						
+						<h3> History </h3>
+						
+						<label>
+							<input type="checkbox" id="profileHistoryHideEpisodeName" class="profileSetting">
+							Hide episode names.
+						</label>
+					</div>
+					
+					<div class="filler"></div>
+					<div id="status"></div>
+					<button id="save">Save</button>
+					<button id="reset">Reset to Defaults</button>
+				</div>
+				
+				<div class="columnSplit"></div>
+				
+				<div class="extensionSettings">
+					<h2> Popup Settings </h2> <input type="checkbox" id="popupAll">
+						
+					<h3> Go To Buttons </h3>
 					
 					<label>
-						<input type="checkbox" id="genShowOnHover" class="generalSettingMain">
-						Obscure names and reveal on hover.
+						<input type="checkbox" id="popGoToDashboard" class="popupSetting">
+						Display 'Go to Dashboard' button.
 					</label>
 
 					<label>
-						<input type="checkbox" id="genReplaceTitlesWithText" class="generalSetting">
-						Replace episode names with 'Spoiler'.
-					</label>
-					
-					<h3> Descriptions </h3>
-					
-					<label>
-						<input type="checkbox" id="genShowDescriptionsOnHover" class="generalSettingMain">
-						Obscure descriptions and reveal on hover.
+						<input type="checkbox" id="popGoToCalendar" class="popupSetting">
+						Display 'Go to Calendar' button.
 					</label>
 					
 					<label>
-						<input type="checkbox" id="genReplaceDescriptionsWithText" class="generalSetting">
-						Replace description with 'Description may contain spoilers'.
-					</label>
-					
-					<h3> Comments </h3>
-					
-					<label>
-						<input type="checkbox" id="genCommentsShowOnHover" class="generalSettingMain">
-						Obscure comments and reveal on hover.
+						<input type="checkbox" id="popGoToProfilePage" class="popupSetting">
+						Display 'Go to Profile Page' button.
 					</label>
 					
 					<label>
-						<input type="checkbox" id="genReplaceCommentText" class="generalSetting">
-						Replace comment with 'Comment may contain spoilers'.
+						<input type="checkbox" id="popGoToProgressPage" class="popupSetting">
+						Display 'Go to Progress Page' button.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="popGoToWatchlist" class="popupSetting">
+						Display 'Go to Watchlist' button.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="popGoToLastCheckIn" class="popupSetting">
+						Display 'Go to Last Check In' button.
+					</label>
+					
+					<label>
+						<input type="checkbox" id="popGoToNextEpisode" class="popupSetting">
+						Display 'Go to Next Episode' button.
 					</label>
 				</div>
-				
-				<div id="dashboardSettings">
-					<h2> Dashboard Settings </h2> <input type="checkbox" id="dashboardAll">
-					
-					<label>
-						<input type="checkbox" id="dashboardHideShowNames" class="dashboardSetting">
-						Hide episode names.
-					</label>
-				</div>
-				
-				<div id="showPageSettings">
-					<h2> Show Page Settings </h2> <input type="checkbox" id="showPageAll">
-					
-					<label>
-						<input type="checkbox" id="showPageHideDescription" class="showPageSetting">
-						Hide show description.
-					</label>
-					
-					<label>
-						<input type="checkbox" id="showPageEpisodeName" class="showPageSetting">
-						Hide episode names on recent episodes.
-					</label>
-
-					<label>
-						<input type="checkbox" id="showPageHideEpisodeScreenshot" class="showPageSetting">
-						Hide episode screenshots on recent episodes.
-					</label>
-				</div>
-				
-				<div id="episodePageSettings">
-					<h2> Episode Page Settings </h2> <input type="checkbox" id="episodePageAll">
-					
-					<label>
-						<input type="checkbox" id="episodePageHideShowName" class="episodePageSetting">
-						Hide episode name.
-					</label>
-					
-					<label>
-						<input type="checkbox" id="episodePageHideShowDescription" class="episodePageSetting">
-						Hide episode description.
-					</label>
-					
-					<label>
-						<input type="checkbox" id="episodePageHideShowScreenshot" class="episodePageSetting">
-						Hide episode screenshot.
-					</label>
-				</div>
-				
-				<div id="seasonPageSettings">
-					<h2> Season Page Settings </h2> <input type="checkbox" id="seasonPageAll">
-					
-					<label>
-						<input type="checkbox" id="seasonPageHideSeasonDescription" class="seasonPageSetting">
-						Hide season description.
-					</label>
-					
-					<label>
-						<input type="checkbox" id="seasonPageHideEpisodeName" class="seasonPageSetting">
-						Hide names of unwatched episodes in the season.
-					</label>
-					
-					<label>
-						<input type="checkbox" id="seasonPageHideEpsiodeDescription" class="seasonPageSetting">
-						Hide descriptions of unwatched episodes in the season.
-					</label>
-					
-					<label>
-						<input type="checkbox" id="seasonPageHideEpisodeScreenshot" class="seasonPageSetting">
-						Hide screenshots of unwatched episodes in the season.
-					</label>
-				</div>
-				
-				<div id="calendarSettings">
-					<h2> Calendar Settings </h2> <input type="checkbox" id="calendarAll">
-					
-					<label>
-						<input type="checkbox" id="calendarHideEpisodeName" class="calendarSetting">
-						Hide episode names.
-					</label>
-				</div>
-				
-				<div id="progressPageSettings">
-					<h2> Progress Page Settings </h2> <input type="checkbox" id="progressPageAll">
-					
-					<label>
-						<input type="checkbox" id="progressPageHideEpisodeName" class="progressPageSetting">
-						Hide episode names.
-					</label>
-					
-					<label>
-						<input type="checkbox" id="progressPageHideEpisodeScreenshot" class="progressPageSetting">
-						Hide episode screenshots.
-					</label>
-				</div>
-				
-				<div id="movieSettings">
-					<h2> Movie Settings </h2> <input type="checkbox" id="movieAll">
-					
-					<label>
-						<input type="checkbox" id="moviePageHideTagline" class="movieSetting">
-						Hide movie tagline.
-					</label>
-					
-					<label>
-						<input type="checkbox" id="moviePageHideDescription" class="movieSetting">
-						Hide movie description.
-					</label>
-				</div>
-				
-				<div class="filler"/>
-				<div id="status"></div>
-				<button id="save">Save</button>
-				<button id="reset">Reset to Defaults</button>
 			</div>
 		</div>
 	</body>

@@ -1,6 +1,13 @@
 <!doctype html>
 <style>
 
+h3
+{
+	text-align: left;
+	padding: 0;
+	margin: 0;
+}
+
 #header
 {
 	width: 200px;
@@ -24,13 +31,50 @@
 
 .navigationButton
 {
-	display:inline-block;
+	display: inline-block;
 	width: 200px;
+	text-align: left;
+	color: white;
+	background-color: #ed1c24;
+	border-color: #de1219;
+	text-transform: uppercase;
+	font-size: 12px;
+	padding: 5px 0px 5px 5px;
+	border: none;
+	margin: 1px 0px 1px 0px;
+	transition: all .5s;
+}
+
+.navigationButton:hover
+{
+	background-color: #c61017;
+	border-color: #a50d13;
+}
+
+.buttonText
+{
+	padding-left: 20px;
+}
+
+#goToLastCheckIn
+{
+	display: none;
+}
+
+#goToNextEpisode
+{
+	display: none;
 }
 
 .searchButton
 {
 	padding-top: 5px;
+}
+
+#txtSearch
+{
+	height: 28px;
+    width: calc(100% - 43px);
 }
 
 .filler
@@ -55,31 +99,54 @@
 	</header>
 
 	<h2 id="welcomeMessage"></h2>
-	
+
+	<h3> Go To: </h3>
+
 	<button id="goToTrakt" class="navigationButton">
-		<img  src="icon16.png" align="left" vertical-align: middle> Go to Trakt.TV
+		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
+		<span class="buttonText"> Dashboard </span>
+	</button>
+	<button id="goToCalendar" class="navigationButton">
+		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
+		<span class="buttonText"> Calendar </span>
 	</button>
 	<button id="goToTraktProfile" class="navigationButton">
-		<img  src="icon16.png" align="left" vertical-align: middle> Go to Profile Page
+		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
+		<span class="buttonText"> Profile Page </span>
 	</button>
 	<button id="goToTraktProgress" class="navigationButton">
-		<img  src="icon16.png" align="left" vertical-align: middle> Go to Progress Page
+		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
+		<span class="buttonText"> Progress Page </span>
 	</button>
 	<button id="goToTraktWatchlist" class="navigationButton">
-		<img  src="icon16.png" align="left" vertical-align: middle> Go to Watchlist
+		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
+		<span class="buttonText"> Watchlist </span>
+	</button>
+	
+	<button id="goToLastCheckIn" class="navigationButton">
+		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
+		<span class="buttonText"> Last Check In </span>
+	</button>
+	
+	<button id="goToNextEpisode" class="navigationButton">
+		<img  src="icon_white60.png" width="16" align="left" vertical-align: middle>
+		<span title="Go to next episode of last checked in item." class="buttonText"> Next Episode </span>
 	</button>
 	
 	<div class="filler"></div>
 	
+	<h3> Search: </h3>
+	
 	<form id="frmSearch">
-		Search Trakt: <input type="text" id="txtSearch" size="13">
+		<input type="image" src="search-icon.jpg" alt="Submit" align="left" vertical-align: middle>
+		<input type="text" id="txtSearch" size="13">
 		<div class="filler5px"></div>
-		<input type="submit" value="Search" id="inputSearch">
 	</form>
 	
 	<div class="filler"></div>
 	<button id="btnOptions" class="navigationButton">
-		<img  src="options.png" align="left" width="16px" vertical-align: middle> Options
+		<img  src="options.png" align="left" width="16px" vertical-align: middle>
+		<span class="buttonText"> Options </span>
 	</button>
   </body>
 </html>
