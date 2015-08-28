@@ -57,10 +57,10 @@ function GetSettings()
 		moviePageHideTagline: false,
 		moviePageHideDescription: false,
 		
-		userProfileHideEpisodeName: true,
-		userProfileHideEpisodeScreenshot: true,
+		profileHideEpisodeName: true,
+		profileHideEpisodeScreenshot: true,
 		
-		userHistoryHideEpisodeName: true,
+		profileHistoryHideEpisodeName: true,
 		
 		userName: ""
 	}, function(items)
@@ -511,6 +511,8 @@ function PreventSpoilersProgressPage()
 
 function PreventSpoilersMoviePage()
 {
+	console.log("Attempting to spoiler prevent Movie Page.");
+	
 	if (settings.moviePageHideTagline)
 		SpoilerPreventTagline();
 	
@@ -522,16 +524,18 @@ function PreventSpoilersMoviePage()
 
 function SpoilerPreventUserProfile()
 {
+	console.log("Attempting to spoiler prevent User Profile.");
+	
 	if (window.location.href.split("trakt.tv/users/")[1].toUpperCase() == settings.userName.toUpperCase())
 		return;
 	
-	if (settings.userProfileHideEpisodeName)
+	if (settings.profileHideEpisodeName)
 	{
 		GetHeaderAndApplyCustomDiv("h3", "Dashboard");
 		GetHeaderAndApplyCustomDiv("h4", "Dashboard");
 	}
 	
-	if (settings.userProfileHideEpisodeScreenshot)
+	if (settings.profileHideEpisodeScreenshot)
 	{
 		var showScreens = document.getElementsByClassName("poster screenshot");
 		
@@ -549,6 +553,11 @@ function SpoilerPreventUserProfile()
 
 function SpoilerPreventUserHistory()
 {
+	console.log("Attempting to spoiler prevent User History.");
+	
+	if (!settings.profileHistoryHideEpisodeName)
+		return;
+	
 	if (window.location.href.split("trakt.tv/users/")[1].split("/")[0].toUpperCase() == settings.userName.toUpperCase())
 		return;
 	
